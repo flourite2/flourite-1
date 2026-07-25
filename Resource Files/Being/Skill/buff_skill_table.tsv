@@ -1,0 +1,2 @@
+SkillID	SkillName	ModifyStat	Target	ModifyCategory	Value	Duration
+buff1	소리지르기	modifiedDef	self	add	-0.1	3

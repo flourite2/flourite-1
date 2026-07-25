@@ -1,0 +1,3 @@
+BeingID	Attack	CritRate	CritRatio	Speed
+player	5.0	1.0	1.5	5
+npc_default	5.0	0.05	1.5	5

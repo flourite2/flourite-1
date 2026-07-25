@@ -1,0 +1,13 @@
+﻿ID	Type	AIType	MapID	PosX	PosY	Mass	Radius	TextureKey	DialogID	UIName
+player	player	NONE	City_Square	0	0	1.0	25.0	player_sd	-1	플레이어
+oldman_1	NPC	STATIONARY	City_Square	0	0	1.0	25.0	oldman_sd	100	노인
+oldman_2	NPC	WAYPOINT	City_Square	0	0	1.0	25.0	oldman_sd	9000	노인
+girl_1	NPC	CHATTERBOX	City_Square	0	0	1.0	25.0	girl_sd	200	여성
+bald_1	NPC	WAYPOINT	City_Square	0	0	1.0	25.0	bald_sd	9000	대머리
+laborer_1	NPC	WAYPOINT	City_Square	0	0	1.0	25.0	laborer_sd	9000	노동자
+bin	Prop_Dynamic	NONE	City_Square	0	0	1.5	20.0	trashcan	-1	None
+tree1_bottom	Prop_Static	NONE	City_Square	0	0	0.0	40.0	tree_bottom	-1	None
+tree_top	Prop_Overhead	NONE	City_Square	0	0	0.0	0.0	tree_top	-1	None
+streetlight_bottom	Prop_Static	NONE	City_Square	0	0	0.0	15.0	street_bottom	-1	None
+streetlight_top	Prop_Overhead	NONE	City_Square	0	0	0.0	0.0	street_top	-1	None
+Dummy	Dummy	NONE	City_Square	0	0	1.0	15.0	trashcan	-1	None

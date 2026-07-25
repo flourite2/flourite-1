@@ -1,0 +1,3 @@
+BeingID	HP	MP	EXP	Level
+player	100	50	0	1
+npc_default	100	50	0	1

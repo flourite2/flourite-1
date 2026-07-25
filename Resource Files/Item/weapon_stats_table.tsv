@@ -1,0 +1,4 @@
+ItemID	ModifyStat	ModifyCategory	Value
+weapon1	baseAtk	add	10.0
+weapon1	baseElementAtkRatio.NORMAL	mul	1.5
+weapon1	baseAtk	add_final	3.5

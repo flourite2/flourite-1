@@ -1,0 +1,5 @@
+MenuID	Label	ActionType	IconKey
+100	상태(Status)	OPEN_STATUS	icon_status
+200	퀘스트(Quests)	OPEN_QUEST	icon_quest
+300	설정(Config)	OPEN_CONFIG	icon_gear
+400	게임 종료	EXIT_GAME	icon_exit

@@ -1,0 +1,19 @@
+AssetID	Type	Path
+being_table	BeingTSV	Resource Files/Being/being_table.tsv
+dialog_table	DialogTSV	Resource Files/Being/dialog_table.tsv
+test2_map	MapJSON	Resource Files/Assets/Urban_RPG_Pack/test2_map.json
+Tilemap_packed	Texture	Resource Files/Assets/Urban_RPG_Pack/Tilemap_packed.png
+UIBox	Texture	Resource Files/Assets/ui-pack/PNG/Grey/Default/button_rectangle_flat.png
+UIDivider	Texture	Resource Files/Assets/ui-pack/PNG/Extra/Default/divider.png
+MenuBox	Texture	Resource Files/Assets/ui-pack/PNG/Grey/Default/button_square_flat.png
+MainFont	Font	Resource Files/Fonts/NanumGothic.ttf
+BaseBar	Texture	Resource Files/Assets/ui-pack/PNG/Grey/Default/button_rectangle_gloss.png
+HPBar	Texture	Resource Files/Assets/ui-pack/PNG/Red/Default/button_rectangle_gloss.png
+MPBar	Texture	Resource Files/Assets/ui-pack/PNG/Blue/Default/button_rectangle_gloss.png
+EXPBar	Texture	Resource Files/Assets/ui-pack/PNG/Green/Default/button_rectangle_gloss.png
+
+player_sd	SpriteCSV	Resource Files/Assets/Urban_RPG_Pack/player_sprite.csv
+oldman_sd	SpriteCSV	Resource Files/Assets/Urban_RPG_Pack/oldman_sprite.csv
+girl_sd	SpriteCSV	Resource Files/Assets/Urban_RPG_Pack/girl_sprite.csv
+laborer_sd	SpriteCSV	Resource Files/Assets/Urban_RPG_Pack/laborer_sprite.csv
+bald_sd	SpriteCSV	Resource Files/Assets/Urban_RPG_Pack/bald_sprite.csv

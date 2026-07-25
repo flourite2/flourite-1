@@ -1,0 +1,139 @@
+{
+    "activeFile": "test2_map.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "first_map.tmx": {
+            "scale": 4,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 84.375,
+                "y": 65.5
+            }
+        },
+        "girl_sprite.tmx": {
+            "scale": 17.94609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.012537547342305,
+                "y": 24.016368464585785
+            }
+        },
+        "laborer_sprite.tmx": {
+            "scale": 17.94609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.012537547342305,
+                "y": 24.016368464585785
+            }
+        },
+        "oldman_sprite.tmx": {
+            "scale": 17.94609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.012537547342305,
+                "y": 23.988507248269556
+            }
+        },
+        "oldman_sprite.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "player_sprite.tmx": {
+            "scale": 17.94609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 33.01554133472639,
+                "y": 23.96064603195334
+            }
+        },
+        "player_sprite.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "test2_map.json": {
+            "scale": 2.7134375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.12898767707014,
+                "y": 160.12898767707014
+            }
+        },
+        "test2_map.tmx": {
+            "expandedObjectLayers": [
+                7,
+                2
+            ],
+            "scale": 2.7134375,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 137.27974202464588,
+                "y": 213.01393527582633
+            }
+        },
+        "test_map.tmx": {
+            "scale": 1.085375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.3224691926754,
+                "y": 158.4705746861684
+            }
+        },
+        "tile_1_middle.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tile_1_upleft.tsx": {
+            "scaleInDock": 1
+        },
+        "tile_1_upmiddle.tsx": {
+            "scaleInDock": 1
+        },
+        "tile_1_upright.tsx": {
+            "scaleInDock": 1
+        },
+        "tilemap.tsx": {
+            "scaleInDock": 1
+        },
+        "tilemap_packed.tsx": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Projects/Tiled_project",
+    "last.imagePath": "C:/Projects/custom_engine/26_engine/26_engine/Resource Files/Assets/Urban_RPG_Pack",
+    "map.height": 3,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 4,
+    "openFiles": [
+        "test2_map.tmx",
+        "test2_map.json",
+        "girl_sprite.tmx",
+        "player_sprite.tmx",
+        "laborer_sprite.tmx",
+        "test_map.tmx"
+    ],
+    "project": "first_map.tiled-project",
+    "recentFiles": [
+        "test_map.tmx",
+        "laborer_sprite.tmx",
+        "player_sprite.tmx",
+        "girl_sprite.tmx",
+        "test2_map.json",
+        "test2_map.tmx",
+        "player_sprite.tsx",
+        "oldman_sprite.tmx",
+        "oldman_sprite.tsx",
+        "tile_1_middle.tsx",
+        "first_map.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
