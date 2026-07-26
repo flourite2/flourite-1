@@ -8,14 +8,14 @@
 #include "Game/Modules/Combat/CombatParser.h"
 #include "Engine/Core/Utils/FileLoader.h"
 #include "Engine/Core/Utils/StringUtils.h"
+#include "Engine/Core/Utils/TableParser.h"
 
 
 
 void CombatParser::ParseAttackConfig(const std::string& filepath, std::unordered_map<std::string, AttackMapData>& atkTable) {
 
 	std::vector<std::string> outLines;
-	std::string extentions;
-	FileLoader::LoadFile(filepath, outLines, extentions);
+	FileLoader::LoadFile(filepath, outLines);
 
 	bool headerSkipped = false;
 	for (const std::string& rawLine : outLines) {
@@ -63,40 +63,8 @@ void CombatParser::ParseAttackConfig(const std::string& filepath, std::unordered
 	}
 }
 
-template<typename T>
-void CombatParser::ParseTsvTable(const std::string& filepath, std::unordered_map<std::string, T>& mappingTable, std::function<std::optional<T>(const std::vector<std::string>&)> mapping) {
-	std::vector<std::string> outLines;
-	std::string extentions;
-	FileLoader::LoadFile(filepath, outLines, extentions);
-
-	bool headerSkipped = false;
-	for (const std::string& rawLine : outLines) {
-		std::string checkLine = StringUtils::Trim(rawLine);
-
-		// 첫 줄 스킵
-		if (!headerSkipped) {
-			headerSkipped = true;
-			continue;
-		}
-
-		if (checkLine.empty() || checkLine[0] == '#') continue;
-
-		std::stringstream ss(rawLine);
-		std::vector<std::string> cols;
-		std::string token;
-
-		while (std::getline(ss, token, '\t')) {
-			cols.push_back(token);
-		}
-
-		auto mapped = mapping(cols);
-		if (mapped) {
-			mappingTable[mapped->id] = *mapped;
-		}
-	}
-}
 void CombatParser::ParseDefenseConfig(const std::string& filepath, std::unordered_map<std::string, DefenseMapData>& defTable) {
-
+	// 테이블의 colSize는 전용 파서에서 명시해야 함
 	const int COLSIZE = 2;
 
 	auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<DefenseMapData> {
@@ -112,14 +80,13 @@ void CombatParser::ParseDefenseConfig(const std::string& filepath, std::unordere
 		return DefenseMapData{ id, baseDef, modifiedDef };
 		};
 
-	ParseTsvTable<DefenseMapData>(filepath, defTable, mapping);
+	TableParser::ParseTsvTable<DefenseMapData>(filepath, defTable, mapping);
 }
 
 
 void CombatParser::ParseElementalConfig(const std::string& filepath, std::unordered_map <std::string, ElementalMapData>& elementTable) {
 	std::vector<std::string> outLines;
-	std::string extentions;
-	FileLoader::LoadFile(filepath, outLines, extentions);
+	FileLoader::LoadFile(filepath, outLines);
 
 	bool headerSkipped = false;
 	for (const std::string& rawLine : outLines) {

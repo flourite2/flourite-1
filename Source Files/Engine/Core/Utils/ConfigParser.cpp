@@ -11,9 +11,8 @@ namespace ConfigParser {
 
     // 단일 INI 파일 로드: 기존 settings에 누적(덮어쓰기)
     void LoadConfig(const std::string& filepath) {
-        std::string extension;
         std::vector<std::string> lines;
-        FileLoader::LoadFile(filepath, lines, extension);
+        FileLoader::LoadFile(filepath, lines);
 
         std::string currentSection = "";
         for (const std::string& rawLine : lines) {

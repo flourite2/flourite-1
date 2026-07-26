@@ -16,7 +16,7 @@ namespace RenderParser {
     // ★ 새로 추가된 스폰 포인트 배열 메모리 할당
     std::vector<SpawnPointData> spawnPoints;
 
-    void LoadMapCSV(const std::string& filepath) {
+    void RenderParser::LoadMapCSV(const std::string& filepath) {
         mapData.clear();
         mapCols = 0;
         mapRows = 0;
@@ -40,44 +40,10 @@ namespace RenderParser {
             }
         }
     }
+            
+    
 
-    void ParseRenderConfig(std::string filepath, std::unordered_map<std::string, RenderMapData>& renderTable) {
-        std::string extension = "";
-        std::vector<std::string> outLines;
-        FileLoader::LoadFile(filepath, outLines, extension);
-
-        if (extension == ".tsv") {
-            bool headerFlag = false;
-            for (const std::string& rawLine : outLines) {
-                std::string checkLine = StringUtils::Trim(rawLine);
-                if (checkLine.empty() || checkLine[0] == '#')
-                    continue;
-
-                if (!headerFlag) {
-                    headerFlag = true;
-                    continue;
-                }
-
-                std::stringstream ss(rawLine);
-                std::string rawCategory, rawName, rawFilename;
-                if (std::getline(ss, rawCategory, '\t') &&
-                    std::getline(ss, rawName, '\t') &&
-                    std::getline(ss, rawFilename, '\t')) {
-
-                    std::string category = StringUtils::Trim(rawCategory);
-                    std::string name = StringUtils::Trim(rawName);
-                    std::string filename = StringUtils::Trim(rawFilename);
-
-                    if (!category.empty() && !name.empty() && !filename.empty()) {
-                        renderTable[name] = RenderMapData{ category, name, filename };
-                        std::cout << "[tsv Debug] Loaded Render Mapping: Category='" << category << "', Name='" << name << "', Filename='" << filename << "'" << std::endl;
-                    }
-                }
-            }
-        }
-    }
-
-    std::vector<std::vector<int>> LoadSpriteCSV(const std::string& filepath) {
+    std::vector<std::vector<int>> RenderParser::LoadSpriteCSV(const std::string& filepath) {
         std::vector<std::vector<int>> animTable;
         std::ifstream file(filepath);
 
@@ -108,7 +74,7 @@ namespace RenderParser {
         return animTable;
     }
 
-    void LoadMapJSON(const std::string& filepath, EntityManager& registry) {
+    void RenderParser::LoadMapJSON(const std::string& filepath, EntityManager& registry) {
         std::ifstream file(filepath);
         if (!file.is_open()) {
             std::cout << "[Error] JSON 맵 파일을 열 수 없습니다: " << filepath << "\n";

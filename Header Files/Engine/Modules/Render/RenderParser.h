@@ -12,11 +12,6 @@
 
 using json = nlohmann::json;
 
-struct RenderMapData {
-    std::string category;
-    std::string name;
-    std::string filename;
-};
 struct SpawnPointData {
     std::string entityID;
     float posX;
@@ -32,7 +27,6 @@ namespace RenderParser {
     extern std::vector<SpawnPointData> spawnPoints; // 중복 정의 방지를 위한 extern 선언
 
     void LoadMapCSV(const std::string& filepath);
-    void ParseRenderConfig(std::string filepath, std::unordered_map<std::string, RenderMapData>& renderTable);
     std::vector<std::vector<int>> LoadSpriteCSV(const std::string& filepath);
     void LoadMapJSON(const std::string& filepath, EntityManager& registry);
 }

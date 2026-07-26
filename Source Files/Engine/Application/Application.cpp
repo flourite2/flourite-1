@@ -62,13 +62,15 @@ bool Application::InitConfigAndSystems() {
     interactRange = ConfigParser::GetFloat("Physics.InteractRange", 50.0f);
     std::cout << "[Interact Range Check]: " << interactRange;
 
-    InputParser::ParseInputConfig("Resource Files/Config/input_map.ini", inputTable);
+    InputParser::ParseInputConfig("Resource Files/Config/input_config.ini", inputTable);
 
     StatParser::ParseStatConfig("Resource Files/Being/Stat/base_stat_table.tsv", statTable);
     CombatParser::ParseAttackConfig("Resource Files/Being/Stat/base_attack_table.tsv", atkTable);
     CombatParser::ParseDefenseConfig("Resource Files/Being/Stat/base_defense_table.tsv", defTable);
-    // 임시 확인용 출력
-    std::cout << "[Parsing 직후 Defense 값 출력]\n\nid: " << defTable["player"].id << "\nbaseDef: " << defTable["player"].baseDef << "\nmodifiedDef: " << defTable["player"].modifiedDef << std::endl;
+    
+    for (const auto& [key, data] : defTable) {
+        std::cout << "key=[" << key << "] baseDef=" << data.baseDef << std::endl;
+    }
 
     CombatParser::ParseElementalConfig("Resource Files/Being/Stat/base_elemental_table.tsv", eleTable);    
 
@@ -93,8 +95,7 @@ bool Application::InitAssets() {
     std::string manifestPath = ConfigParser::GetString("Paths.AssetManifest", "Resource Files/Config/asset_manifest.tsv");
 
     std::vector<std::string> lines;
-    std::string ext;
-    FileLoader::LoadFile(manifestPath, lines, ext);
+    FileLoader::LoadFile(manifestPath, lines);
 
     if (lines.empty()) {
         std::cerr << "[Fatal Error] 에셋 매니페스트 파일을 찾을 수 없습니다: " << manifestPath << "\n";

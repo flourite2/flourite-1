@@ -5,20 +5,19 @@
 #include <iostream>
 
 namespace FileLoader {
-    void LoadFile(const std::string& filepath, std::vector<std::string>& outLines, std::string& extension) {
+    void LoadFile(const std::string& filepath, std::vector<std::string>& outLines) {
         std::ifstream file(filepath);
         if (!file.is_open()) {
-            std::cout << "[FileLoader Error] Failed to open file: " << filepath << std::endl;
+            std::cerr << "[FileLoader Error] Failed to open file: " << filepath << std::endl;
             return;
         }
 
         size_t dotPos = filepath.find_last_of('.');
         if (dotPos == std::string::npos) {
-            std::cout << "[FileLoader Error] No file extension found in: " << filepath << std::endl;
+            std::cerr << "[FileLoader Error] No file extension found in: " << filepath << std::endl;
             return;
         }
 
-        extension = filepath.substr(dotPos);
 
         std::string line;
         while (std::getline(file, line)) {

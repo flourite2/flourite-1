@@ -8,13 +8,14 @@
 #include <iostream>
 #include <algorithm>
 
+// 여기는 다른 데에 비해 복잡해서 다음에 처리
 namespace DialogParser {
     void ParseDialogConfig(const std::string& filepath) {
         std::vector<std::string> outLines;
         std::string extension;
 
         // 1. 안전한 파일 로드
-        FileLoader::LoadFile(filepath, outLines, extension);
+        FileLoader::LoadFile(filepath, outLines);
 
         if (outLines.empty()) {
             std::cerr << "[DialogParser Error] 파일을 읽을 수 없거나 내용이 텅 비어있습니다: " << filepath << "\n";

@@ -13,8 +13,7 @@
 namespace StatParser {
 	void ParseStatConfig(const std::string& filepath, std::unordered_map<std::string, StatMapData>& statTable) {
 		std::vector<std::string> outLines;
-		std::string extentions;
-		FileLoader::LoadFile(filepath, outLines, extentions);
+		FileLoader::LoadFile(filepath, outLines);
 
 		for (const auto& line : outLines) {
 			std::cout << "[RAW LINE] " << line << std::endl;

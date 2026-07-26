@@ -42,6 +42,4 @@ namespace CombatParser {
 	void ParseAttackConfig(const std::string& filepath, std::unordered_map<std::string, AttackMapData>& atkTable);
 	void ParseDefenseConfig(const std::string& filepath, std::unordered_map<std::string, DefenseMapData>& defTable);
 	void ParseElementalConfig(const std::string& filepath, std::unordered_map <std::string, ElementalMapData>& eleTable);
-	template<typename T>
-	void ParseTsvTable(const std::string& filepath, std::unordered_map<std::string, T>& mappingTable, std::function<std::optional<T>(const std::vector<std::string>&)> mapping);
 }

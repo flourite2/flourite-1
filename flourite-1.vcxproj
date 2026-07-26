@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Header Files\Engine\Core\Utils\TableParser.h" />
     <ClCompile Include="Header Files\Engine\ECS\Components\AI\FSMComponent.h" />
     <ClCompile Include="Header Files\Game\ECS\Components\CombatComponents.h" />
     <ClCompile Include="Source Files\Engine\Application\Application.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="Source Files\Engine\ECS\Systems\PhysicsSystem2D.cpp" />
     <ClCompile Include="Source Files\Engine\ECS\Systems\RenderSystem2D.cpp" />
     <ClCompile Include="Source Files\Engine\ECS\Systems\SpawnsSystem.cpp" />
+    <ClCompile Include="Source Files\Engine\Modules\Being\BeingFactory.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Being\BeingParser.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Dialog\DialogParser.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Event\EventHandler.cpp" />
@@ -99,10 +101,10 @@
     <None Include="..\..\..\Tiled_project\oldman_sprite.csv" />
     <None Include="..\..\..\Tiled_project\player_sprite.csv" />
     <None Include="..\..\..\Tiled_project\test_map.csv" />
-    <None Include="docs\github 업로드 전까지의 진행 상황.md" />
+    <None Include="docs\journal\00_pre-repo-summary.md" />
     <None Include="docs\journal\2026-07-19.md" />
-    <None Include="docs\project-dictionary.md" />
-    <None Include="docs\Roadmap.md" />
+    <None Include="docs\journal\2026-07-25.md" />
+    <None Include="docs\ROADMAP.md" />
     <None Include="README.md" />
     <None Include="Resource Files\Assets\Urban_RPG_Pack\map.csv" />
     <None Include="Resource Files\Being\Skill\attack_skill_table.tsv" />
@@ -120,7 +122,7 @@
     <None Include="Resource Files\Config\directory_config.ini" />
     <None Include="Resource Files\Config\engine_config.ini" />
     <None Include="Resource Files\Config\gameplay_vars.ini" />
-    <None Include="Resource Files\Config\input_map.ini" />
+    <None Include="Resource Files\Config\input_config.ini" />
     <None Include="Resource Files\Config\ui_config.ini" />
     <None Include="Resource Files\Item\accessory_stats_table.tsv" />
     <None Include="Resource Files\Item\accessory_table.tsv" />
@@ -620,7 +622,7 @@
     <Image Include="Resource Files\Assets\Urban_RPG_Pack\tile_0485.png" />
   </ItemGroup>
   <ItemGroup>
-	  <Font Include="Resource Files\Fonts\NanumGothic.ttf" />
+    <Font Include="Resource Files\Fonts\NanumGothic.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
