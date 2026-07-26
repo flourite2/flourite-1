@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 #include "Game/Modules/Combat/CombatParser.h"
 #include "Engine/Core/Utils/FileLoader.h"
@@ -13,37 +14,13 @@
 
 
 void CombatParser::ParseAttackConfig(const std::string& filepath, std::unordered_map<std::string, AttackMapData>& atkTable) {
+	const int COLSIZE = 5;
 
-	std::vector<std::string> outLines;
-	FileLoader::LoadFile(filepath, outLines);
-
-	bool headerSkipped = false;
-	for (const std::string& rawLine : outLines) {
-		std::string checkLine = StringUtils::Trim(rawLine);
-
-		// 첫 줄 스킵
-		if (!headerSkipped) {
-			headerSkipped = true;
-			continue;
-		}
-
-		if (checkLine.empty() || checkLine[0] == '#') continue;
-
-		std::stringstream ss(rawLine);
-		std::vector<std::string> cols;
-		std::string token;
-
-		while (std::getline(ss, token, '\t')) {
-			cols.push_back(token);
-		}
-
-		const int COLSIZE = 4;
-		if (cols.size() < COLSIZE) {
-			std::cerr << "[CombatParser] 필수 컬럼 부족, 건너뜀: " << rawLine << "\n";
-			continue;
-		}
-
-		AttackMapData data;
+	auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, AttackMapData>> {
+		if (cols.size() != COLSIZE) {
+			std::cerr << "[ParseAttckConfig Error]: COLSIZE 불일치" << std::endl;
+			return std::nullopt;
+		};
 		std::string id = StringUtils::Trim(cols[0]);
 		float defaultAtk = std::stof(StringUtils::Trim(cols[1]));
 		float currentAtk = defaultAtk + 0.0f;
@@ -57,74 +34,69 @@ void CombatParser::ParseAttackConfig(const std::string& filepath, std::unordered
 		float defaultSpeed = std::stof(StringUtils::Trim(cols[4]));
 		float currentSpeed = defaultSpeed + 0.0f;
 		float modifiedSpeed = ((currentSpeed + 0.0f) * 1.0f) + 1.0f;
-		data = { id, currentAtk, modifiedAtk, currentCritRate, modifiedCritRate, currentCritRatio, modifiedCritRatio, currentSpeed, modifiedSpeed };
+		return std::pair{ id,
+			AttackMapData{ id,
+			currentAtk,
+			modifiedAtk,
+			currentCritRate,
+			modifiedCritRate,
+			currentCritRatio,
+			modifiedCritRatio,
+			currentSpeed,
+			modifiedSpeed } }; };
 
-		atkTable[data.id] = data;
-	}
+	TableParser::ParseTsvTable(filepath, atkTable, mapping);
+	
 }
 
 void CombatParser::ParseDefenseConfig(const std::string& filepath, std::unordered_map<std::string, DefenseMapData>& defTable) {
 	// 테이블의 colSize는 전용 파서에서 명시해야 함
 	const int COLSIZE = 2;
 
-	auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<DefenseMapData> {
+	auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, DefenseMapData>> {
 		if (cols.size() != COLSIZE) {
 			std::cerr << "COLSIZE 불일치" << std::endl;
 			return std::nullopt;
 		}
-		std::string id = StringUtils::Trim(cols[0]);
+		// 해당 테이블에서 키 값은 beingId가 될 것.
+		std::string beingId = StringUtils::Trim(cols[0]);
 		float defaultDef = std::stof(StringUtils::Trim(cols[1]));
 		float baseDef = defaultDef + 0.0f;
 		float modifiedDef = baseDef + 0.0f;
 
-		return DefenseMapData{ id, baseDef, modifiedDef };
+		return std::pair{ beingId, DefenseMapData{ beingId, baseDef, modifiedDef } };
 		};
 
-	TableParser::ParseTsvTable<DefenseMapData>(filepath, defTable, mapping);
+	TableParser::ParseTsvTable(filepath, defTable, mapping);
 }
 
 
 void CombatParser::ParseElementalConfig(const std::string& filepath, std::unordered_map <std::string, ElementalMapData>& elementTable) {
-	std::vector<std::string> outLines;
-	FileLoader::LoadFile(filepath, outLines);
+	
+	const int COLSIZE = 11;
 
-	bool headerSkipped = false;
-	for (const std::string& rawLine : outLines) {
-		std::string checkLine = StringUtils::Trim(rawLine);
-
-		// 첫 줄 스킵
-		if (!headerSkipped) {
-			headerSkipped = true;
-			continue;
+	auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, ElementalMapData>> {
+		if (cols.size() != COLSIZE) {
+			std::cerr << "[CombatParser Error]: COLSIZE 불일치" << std::endl;
+			return std::nullopt;
 		}
-
-		if (checkLine.empty() || checkLine[0] == '#') continue;
-
-		std::stringstream ss(rawLine);
-		std::vector<std::string> cols;
-		std::string token;
-
-		while (std::getline(ss, token, '\t')) {
-			cols.push_back(token);
-		}
-
-		const int COLSIZE = 11;
-		if (cols.size() < COLSIZE) {
-			std::cerr << "[CombatParser] 필수 컬럼 부족, 건너뜀: " << rawLine << "\n";
-			continue;
-		}
-
-		ElementalMapData data;
-		data.id = StringUtils::Trim(cols[0]);
-
+		ElementalMapData elementData;
+		std::string beingId = StringUtils::Trim(cols[0]);
+		elementData.beingId = beingId;
 		for (int i = 0; i < 5; i++) {
-			data.baseElementAtkRatio[i] = std::stof(StringUtils::Trim(cols[1 + i]));
+			elementData.baseElementAtkRatio[i] = std::stof(StringUtils::Trim(cols[1 + i]));
+			elementData.modifiedElementAtkRatio[i] = elementData.baseElementAtkRatio[i] + 0.0f;	// 임시 modifying 값
 		}
 		for (int i = 0; i < 5; i++) {
-			data.baseElementDefRatio[i] = std::stof(StringUtils::Trim(cols[6 + i]));
+			elementData.baseElementDefRatio[i] = std::stof(StringUtils::Trim(cols[6 + i]));
+			elementData.modifiedElementDefRatio[i] = elementData.baseElementDefRatio[i] + 0.0f;	// 임시 modifying 값
 		}
 
-		elementTable[data.id] = data;
-	}
+		return std::pair{
+			beingId,
+			elementData
+		};};
+		
+	TableParser::ParseTsvTable(filepath, elementTable, mapping);
 }
 

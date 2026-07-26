@@ -21,10 +21,10 @@ struct LevelMapData {
 };
 
 struct StatMapData {
+	std::string beingId;
 	HPMapData hpMapData;
 	MPMapData mpMapData;
 	LevelMapData LevelMapData;
-	std::string id;
 };
 
 namespace StatParser {

@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <utility>
 
 namespace BeingParser {
 
@@ -14,7 +15,7 @@ void BeingParser::ParseBeingConfig(const std::string& filepath,
 	std::unordered_map<std::string, BeingMapData>& beingTable){
 	const int COLSIZE = 11;
 
-	auto mapping = [COLSIZE](const std::vector<std::string>& cols)->std::optional<BeingMapData> {
+	auto mapping = [COLSIZE](const std::vector<std::string>& cols)->std::optional<std::pair<std::string, BeingMapData>> {
 		if (cols.size() != COLSIZE) {
 			std::cerr << "[Being Parser Error: Colsize ºÒÀÏÄ¡" << std::endl;
 			return std::nullopt;
@@ -31,10 +32,11 @@ void BeingParser::ParseBeingConfig(const std::string& filepath,
 		int dialogID = std::stoi(StringUtils::Trim(cols[9]));
 		std::string uiName = StringUtils::Trim(cols[10]);
 
-		return BeingMapData{
+		return std::pair { id,
+			BeingMapData{
 			id,
 			type,
-			aiType, 
+			aiType,
 			mapID,
 			posX,
 			posY,
@@ -43,7 +45,7 @@ void BeingParser::ParseBeingConfig(const std::string& filepath,
 			textureKey,
 			dialogID,
 			uiName
-		};};
+		}}; };
 
 		TableParser::ParseTsvTable(filepath, beingTable, mapping);
 	}

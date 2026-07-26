@@ -9,7 +9,7 @@
 #include <functional>
 
 struct AttackMapData {
-	std::string id;
+	std::string beingId;
 
 	float baseAtk;
 	float modifiedAtk;
@@ -21,7 +21,7 @@ struct AttackMapData {
 	float modifiedSpeed;
 };
 struct DefenseMapData {
-	std::string id;
+	std::string beingId;
 
 	float baseDef;
 	float modifiedDef;
@@ -29,7 +29,7 @@ struct DefenseMapData {
 };
 
 struct ElementalMapData {
-	std::string id;
+	std::string beingId;
 
 	std::array<float, 5> baseElementAtkRatio;
 	std::array<float, 5> modifiedElementAtkRatio;

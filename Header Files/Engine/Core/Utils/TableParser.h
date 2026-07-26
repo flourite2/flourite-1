@@ -13,8 +13,8 @@
 
 // 제네릭 타입 T 사용 함수는 예외적으로 헤더 파일에 작성
 namespace TableParser {
-	// filepath, table, mapping 람다 함수 입력 필요. mapping 함수는 const std::vector<std::string>&를 받아 std::optional<T>를 반환하는 함수가 아닐 경우 본문에서 에러 발생 우려
-	// T 객체는 id를 반드시 가져야 함
+	// filepath, table, mapping 람다 함수 입력 필요. mapping 함수는 const std::vector<std::string>&를 받아 std::optional<std::pair<std::string, T>>를 반환하는 함수가 아닐 경우 본문에서 에러 발생 우려
+	// mapping 함수 반환 값에는 반드시 std::string 형태의 키 값이 있어야 하며 return std::pair값에 포함시킬 것
 	template<typename T, typename MappingFunc>
 	void ParseTsvTable(const std::string& filepath, std::unordered_map<std::string, T>& mappingTable, MappingFunc mapping) {	
 		std::vector<std::string> outLines;
@@ -41,8 +41,9 @@ namespace TableParser {
 			}
 
 			auto mapped = mapping(cols);
+			
 			if (mapped) {
-				mappingTable[mapped->id] = *mapped;
+				mappingTable[mapped->first] = mapped->second;
 			}
 		}
 	}
