@@ -26,6 +26,7 @@
     <ClCompile Include="Source Files\Engine\Core\Time\Timer.cpp" />
     <ClCompile Include="Source Files\Engine\Core\Time\FixedStepAccumulator.cpp" />
     <ClCompile Include="Source Files\Engine\Core\Utils\ConfigParser.cpp" />
+    <ClCompile Include="Source Files\Engine\Core\Utils\DirectoryHelper.cpp" />
     <ClCompile Include="Source Files\Engine\Core\Utils\FileLoader.cpp" />
     <ClCompile Include="Source Files\Engine\Core\Utils\MemoryTracker.cpp" />
     <ClCompile Include="Source Files\Engine\Core\Utils\PerformanceTracker.cpp" />
@@ -56,6 +57,7 @@
   <ItemGroup>
     <ClInclude Include="Header Files\Engine\Application\Application.h" />
     <ClInclude Include="Header Files\Engine\Core\Utils\ConfigParser.h" />
+    <ClInclude Include="Header Files\Engine\Core\Utils\DirectoryHelper.h" />
     <ClInclude Include="Header Files\Engine\Core\Utils\json.hpp" />
     <ClInclude Include="Header Files\Engine\ECS\Components\Stat\StatComponents.h" />
     <ClInclude Include="Header Files\Engine\ECS\Systems\FSMSystem.h" />
@@ -105,7 +107,7 @@
     <None Include="Docs\journal\2026-07-19.md" />
     <None Include="Docs\journal\2026-07-25.md" />
     <None Include="Docs\ROADMAP.md" />
-    <None Include="External Libraries\setting-guide.md" />
+    <None Include="External Libraries\setup-guide.md" />
     <None Include="README.md" />
     <None Include="Resource Files\Assets\Urban_RPG_Pack\map.csv" />
     <None Include="Resource Files\Being\Skill\attack_skill_table.tsv" />
@@ -720,6 +722,13 @@
       <AdditionalLibraryDirectories>$(ProjectDir)External Libraries\SFML\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+			copy "$(ProjectDir)External Libraries\SFML\bin\sfml-graphics-d-3.dll" "$(TargetDir)"
+			copy "$(ProjectDir)External Libraries\SFML\bin\sfml-window-d-3.dll" "$(TargetDir)"
+			copy "$(ProjectDir)External Libraries\SFML\bin\sfml-system-d-3.dll" "$(TargetDir)"
+		</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -739,6 +748,13 @@
       <AdditionalLibraryDirectories>$(ProjectDir)External Libraries\SFML\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+			copy "$(ProjectDir)External Libraries\SFML\bin\sfml-graphics-3.dll" "$(TargetDir)"
+			copy "$(ProjectDir)External Libraries\SFML\bin\sfml-window-3.dll" "$(TargetDir)"
+			copy "$(ProjectDir)External Libraries\SFML\bin\sfml-system-3.dll" "$(TargetDir)"
+		</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
