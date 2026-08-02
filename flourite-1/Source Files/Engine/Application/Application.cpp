@@ -14,6 +14,8 @@
 #include "Engine/Modules/Dialog/DialogParser.h"
 #include "Engine/Modules/Physics/PhysicsUtils.h"
 
+#include "Engine/Core/Utils/DirectoryHelper.h"
+
 #include "Engine/ECS/Components/Stat/StatComponents.h"
 #include "Game/ECS/Components/CombatComponents.h"
 
@@ -27,6 +29,7 @@
 #include <sstream>
 #include <iostream>
 #include <random>
+#include <windows.h>
 
 #include "Engine/Modules/UI/Menu.h"
 
@@ -55,6 +58,11 @@ bool Application::Init() {
 }
 
 bool Application::InitConfigAndSystems() {
+    projectDirName = "flourite-1";
+    projectDir = DirectoryHelper::GetProjectDirectory(projectDirName);
+    if (projectDir.empty()) return false;
+    std::filesystem::current_path(projectDir);
+
     ConfigParser::LoadConfig("Resource Files/Config/engine_config.ini");
 
     resX = ConfigParser::GetInt("Window.Width", 1920);

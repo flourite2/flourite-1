@@ -7,6 +7,7 @@
 #include <vector>
 #include <optional>
 #include <SFML/Graphics.hpp>
+#include <filesystem>
 
 #include "Engine/ECS/Entities/EntityManager.h"
 #include "Engine/ECS/Systems/PhysicsSystem2D.h"
@@ -102,4 +103,8 @@ private:
     std::unordered_map<std::string, AttackMapData> atkTable;
     std::unordered_map<std::string, DefenseMapData> defTable;
     std::unordered_map<std::string, ElementalMapData> eleTable;
+
+    // 경로 관련
+    std::string projectDirName;
+    std::filesystem::path projectDir;
 };
