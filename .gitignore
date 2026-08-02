@@ -17,6 +17,9 @@ ipch/
 *.dll
 benchmark_result.csv
 
+# 외부 라이브러리
+flourite-1/External Libraries/*/
+
 # 비업로드 파일
 _OldFiles/
 *_비공개.md

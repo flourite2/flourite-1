@@ -307,11 +307,11 @@
     <None Include="Resource Files\Being\Skill\attack_skill_table.tsv" />
     <None Include="Resource Files\Being\Skill\defense_skill_table.tsv" />
     <None Include="Resource Files\Being\Skill\buff_skill_table.tsv" />
-    <None Include="docs\journal\2026-07-19.md" />
-    <None Include="docs\ROADMAP.md" />
+    <None Include="Docs\journal\2026-07-19.md" />
+    <None Include="Docs\ROADMAP.md" />
     <None Include="README.md" />
-    <None Include="docs\journal\2026-07-25.md" />
-    <None Include="docs\journal\00_pre-repo-summary.md" />
+    <None Include="Docs\journal\2026-07-25.md" />
+    <None Include="Docs\journal\00_pre-repo-summary.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\Assets\Urban_RPG_Pack\tile_0000.png">

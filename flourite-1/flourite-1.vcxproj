@@ -101,10 +101,11 @@
     <None Include="..\..\..\Tiled_project\oldman_sprite.csv" />
     <None Include="..\..\..\Tiled_project\player_sprite.csv" />
     <None Include="..\..\..\Tiled_project\test_map.csv" />
-    <None Include="docs\journal\00_pre-repo-summary.md" />
-    <None Include="docs\journal\2026-07-19.md" />
-    <None Include="docs\journal\2026-07-25.md" />
-    <None Include="docs\ROADMAP.md" />
+    <None Include="Docs\journal\00_pre-repo-summary.md" />
+    <None Include="Docs\journal\2026-07-19.md" />
+    <None Include="Docs\journal\2026-07-25.md" />
+    <None Include="Docs\ROADMAP.md" />
+    <None Include="External Libraries\setting-guide.md" />
     <None Include="README.md" />
     <None Include="Resource Files\Assets\Urban_RPG_Pack\map.csv" />
     <None Include="Resource Files\Being\Skill\attack_skill_table.tsv" />
@@ -709,14 +710,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SFML-3.1.0\include; $(ProjectDir)Header Files;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)External Libraries\SFML\include; $(ProjectDir)Header Files;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TranslateIncludes>false</TranslateIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SFML-3.1.0\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)External Libraries\SFML\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -728,14 +729,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SFML-3.1.0\include; $(ProjectDir)Header Files;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)External Libraries\SFML\include; $(ProjectDir)Header Files;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TranslateIncludes>false</TranslateIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SFML-3.1.0\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)External Libraries\SFML\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
