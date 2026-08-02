@@ -108,7 +108,6 @@
     <None Include="Docs\journal\2026-07-25.md" />
     <None Include="Docs\ROADMAP.md" />
     <None Include="External Libraries\setup-guide.md" />
-    <None Include="README.md" />
     <None Include="Resource Files\Assets\Urban_RPG_Pack\map.csv" />
     <None Include="Resource Files\Being\Skill\attack_skill_table.tsv" />
     <None Include="Resource Files\Being\Skill\defense_skill_table.tsv" />

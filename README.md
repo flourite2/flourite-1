@@ -10,14 +10,14 @@ C++とSFMLを用いて、独自エンジンでゼロから開発している2D�
 
 ## 概要
 
-本作は、短編（約30分程度）のトップビュー型RPGとして開発している個人プロジェクトである。設計判断と実装は自ら行うことを原則としている。AIの支援を受けた箇所については、その範囲を開発ログ（`docs/journal/`）に明記している。
+本作は、短編（約30分程度）のトップビュー型RPGとして開発している個人プロジェクトである。設計判断と実装は自ら行うことを原則としている。AIの支援を受けた箇所については、その範囲を開発ログ（`flourite-1/docs/journal/`）に明記している。
 
 本プロジェクトを通じて追求している核心的なテーマは、オブジェクト指向設計を可能な限り排除し、ECSに基づくデータ指向設計へと移行することで、低レベルでの制御とメモリ効率を高めていくことにある。性能については推測に頼らず、自作の計測ツール（ΔT / Allocation / DrawCall / Swap）による実測を判断の根拠としている。あわせて、TSV/INIによる設定管理を徹底したデータ駆動設計を採用し、コード中にマジックナンバーを残さない方針を貫いている。
 
 **アーキテクチャ**は以下の2層に分離している。
 
-- **Engine層** — 汎用システム（Stat, Physics, Input, Render, Config）。ゲーム本体の完成後、独立したエンジンリポジトリ（*Treadmill 2D Engine*、仮）として切り出す予定
-- **Game層** — 本作固有のロジック（Combat）
+- **flourite-1/Engine層** — 汎用システム（Stat, Physics, Input, Render, Config）。ゲーム本体の完成後、独立したエンジンリポジトリ（*Treadmill 2D Engine*、仮）として切り出す予定
+- **flourite-1/Game層** — 本作固有のロジック（Combat）
 
 ## 技術スタック
 
@@ -29,15 +29,15 @@ C++とSFMLを用いて、独自エンジンでゼロから開発している2D�
 
 開発継続中。コアシステム（ECS、force/damping方式の物理演算、FSMによるNPC移動、会話システム、タイルマップ）は動作可能な状態。戦闘システムおよびコンテンツ（アイテム、状態異常、クエスト）は実装途上。
 
-詳細な進捗・設計上の判断は [`docs/ROADMAP.md`](docs/ROADMAP.md)、日々の作業記録は [`docs/journal/`](docs/journal/) に残している。
+詳細な進捗・設計上の判断は [`flourite-1/docs/ROADMAP.md`](flourite-1/docs/ROADMAP.md)、日々の作業記録は [`flourite-1/docs/journal/`](flourite-1/docs/journal/) に残している。
 
 ## 構成
 
 ```
-Header Files/    — エンジン・ゲーム側ヘッダ
-Source Files/    — 実装
-Resource Files/  — アセット、設定、データテーブル
-docs/            — ロードマップおよび開発ログ
+flourite-1/Header Files/    — エンジン・ゲーム側ヘッダ
+flourite-1/Source Files/    — 実装
+flourite-1/Resource Files/  — アセット、設定、データテーブル
+flourite-1/docs/            — ロードマップおよび開発ログ
 ```
 
 ## 名前の由来
