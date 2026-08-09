@@ -101,9 +101,6 @@
     <ClInclude Include="Header Files\Game\Modules\Combat\CombatParser.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Tiled_project\oldman_sprite.csv" />
-    <None Include="..\..\..\Tiled_project\player_sprite.csv" />
-    <None Include="..\..\..\Tiled_project\test_map.csv" />
     <None Include="Docs\journal\00_pre-repo-summary.md" />
     <None Include="Docs\ROADMAP.md" />
     <None Include="External Libraries\setup-guide.md" />
