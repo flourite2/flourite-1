@@ -46,6 +46,7 @@
     <ClCompile Include="Source Files\Engine\Modules\Input\InputParser.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Physics\PhysicsUtils.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Render\AnimationHelper.cpp" />
+    <ClCompile Include="Source Files\Engine\Modules\Render\AnimationUpdater.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Render\Renderer.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Render\RenderParser.cpp" />
     <ClCompile Include="Source Files\Engine\Modules\Render\UIHelper.cpp" />

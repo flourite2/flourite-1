@@ -3,7 +3,7 @@
 #include "Engine/Modules/Being/BeingFactory.h"
 
 namespace BeingFactory {
-    Entity SpawnBeing(EntityManager& registry, const BeingMapData& data, const sf::Texture* atlas, int initialTileID, SpawnDefault spawnDefaults, float overrideX, float overrideY) {
+    Entity SpawnBeing(EntityManager& registry, const BeingMapData& data, const sf::Texture* atlas, int initialTileID, SpawnDefault spawnDefaults, AnimationHelper::SpriteSheetSpec sps, float overrideX, float overrideY) {
         Entity e = registry.CreateEntity();
         float x = (overrideX != -1.0f) ? overrideX : data.posX;
         float y = (overrideY != -1.0f) ? overrideY : data.posY;
@@ -23,7 +23,7 @@ namespace BeingFactory {
 
         RenderComponent rend;
         rend.texture = atlas;
-        rend.textureRect = AnimationHelper::GetRectFromTileID(initialTileID);
+        rend.textureRect = AnimationHelper::GetRectFromTileID(initialTileID, sps);
         rend.origin = sf::Vector2f(8.f, 8.f);
         rend.color = sf::Color::White;
         rend.animKey = data.textureKey;

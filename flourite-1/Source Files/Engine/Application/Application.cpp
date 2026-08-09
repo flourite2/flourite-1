@@ -65,6 +65,11 @@ bool Application::InitConfigAndSystems() {
 
     ConfigParser::LoadConfig("Resource Files/Config/engine_config.ini");
 
+    spriteSheetSpec = {
+        ConfigParser::GetInt("TileSize", 16),
+        ConfigParser::GetInt("SheetColumns", 27)
+    };
+
     resX = ConfigParser::GetInt("Window.Width", 1920);
     resY = ConfigParser::GetInt("Window.Height", 1080);
     interactRange = ConfigParser::GetFloat("Physics.InteractRange", 50.0f);
@@ -94,6 +99,8 @@ bool Application::InitConfigAndSystems() {
     float damping = ConfigParser::GetFloat("Movement.DefaultDamping", 8.0f);
 
     inputManager.emplace(inputTable);
+
+    
 
     return true;
 }
@@ -149,7 +156,7 @@ bool Application::InitAssets() {
     }
 
     // 3. 맵 크기 및 물리 바운더리 세팅
-    int tileSize = ConfigParser::GetInt("Map.TileSize", 16);
+    int tileSize = spriteSheetSpec.tileSize;
     float mapScale = ConfigParser::GetFloat("Map.Scale", 6.0f);
 
     mapW = static_cast<float>(RenderParser::mapCols) * tileSize * mapScale;
@@ -160,7 +167,7 @@ bool Application::InitAssets() {
     clampMaxY = std::max(halfH, mapH - halfH);
 
     // ★ 딕셔너리에서 텍스처를 꺼내서 사용
-    myTileMap.Load(&textures.at("Tilemap_packed"), tileSize, ConfigParser::GetInt("Map.SheetColumns", 27), RenderParser::mapCols, RenderParser::mapRows, mapScale, RenderParser::mapData);
+    myTileMap.Load(&textures.at("Tilemap_packed"), tileSize, spriteSheetSpec.sheetColumns, RenderParser::mapCols, RenderParser::mapRows, mapScale, RenderParser::mapData);
 
     std::cout << "[System] 에셋 매니페스트 동적 로딩 완료.\n";
     return true;
@@ -188,7 +195,7 @@ bool Application::InitEntities() {
         }
 
         // ★ 모듈화된 팩토리 호출
-        Entity e = BeingFactory::SpawnBeing(registry, bData, &textures.at("Tilemap_packed"), tileIDToUse, sd, sp.posX, sp.posY);
+        Entity e = BeingFactory::SpawnBeing(registry, bData, &textures.at("Tilemap_packed"), tileIDToUse, sd, spriteSheetSpec, sp.posX, sp.posY);
 
         if (bData.type == "Player" || bData.type == "player") registry.signatures[e].set(COMP_PLAYER_TAG);
         else if (bData.type == "NPC" || bData.type == "npc") registry.signatures[e].set(COMP_NPC_TAG);
@@ -213,7 +220,7 @@ bool Application::InitEntities() {
     if (it != animTables.end()) dummyTileID = it->second[0][0];
 
     for (int i = 0; i < dummyCount; ++i) {
-        BeingFactory::SpawnBeing(registry, beingTable.at("Dummy"), &textures.at("Tilemap_packed"), dummyTileID, sd, posDist(rng), posDist(rng));
+        BeingFactory::SpawnBeing(registry, beingTable.at("Dummy"), &textures.at("Tilemap_packed"), dummyTileID, sd, spriteSheetSpec, posDist(rng), posDist(rng));
     }
 
     // 3. 플레이어 스폰 검증
@@ -301,7 +308,7 @@ bool Application::InitEvents() {
                         nFsm.currentState = FSMState::CONVERSATION;
                         nPhys.velocity = Vector2D(0, 0);
                         nTrans.facedDirection = pTrans.facedDirection * -1.0f;
-                        AnimationUpdater::UpdateAnimation(registry, i, 0.0f, animTables);
+                        AnimationUpdater::UpdateAnimation(registry, i, 0.0f, animTables, spriteSheetSpec);
                         currentState = GameState::DIALOG;
 
                         std::cout << "대화시작" << std::endl;
@@ -439,7 +446,7 @@ void Application::Run() {
         if (currentState == GameState::PLAYING) {
             for (Entity i = 0; i < maxEntities; ++i) {
                 if (registry.signatures[i].test(COMP_PLAYER_TAG) || registry.signatures[i].test(COMP_NPC_TAG)) {
-                    AnimationUpdater::UpdateAnimation(registry, i, dtFloat, animTables);
+                    AnimationUpdater::UpdateAnimation(registry, i, dtFloat, animTables, spriteSheetSpec);
                 }
             }
         }

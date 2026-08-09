@@ -147,6 +147,9 @@
     <ClCompile Include="Source Files\Engine\Core\Utils\DirectoryHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\Engine\Modules\Render\AnimationUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Engine\Core\Math\Vector2D.h">

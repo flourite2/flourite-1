@@ -23,6 +23,7 @@
 #include "Game/ECS/Components/CombatComponents.h"
 #include "Engine/Modules/Stat/StatParser.h"
 #include "Game/Modules/Combat/CombatParser.h"
+#include "Engine/Modules/Render/AnimationHelper.h"
 
 enum class GameState {
     PLAYING,      // 평소 이동 상태
@@ -84,7 +85,8 @@ private:
     TileMap myTileMap;
     std::unordered_map<std::string, std::vector<std::vector<int>>> animTables;
     std::unordered_map<std::string, InputMapData> inputTable;
-
+    
+    AnimationHelper::SpriteSheetSpec spriteSheetSpec;
     
     std::unordered_map<std::string, BeingMapData> beingTable;
 
