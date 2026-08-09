@@ -359,7 +359,7 @@ bool Application::InitEvents() {
     auto menuDownKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Down").input).value_or(sf::Keyboard::Key::Unknown);
     auto menuRightKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Right").input).value_or(sf::Keyboard::Key::Unknown);
     auto menuSelectKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Select").input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuCancleKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Cancle").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuCancelKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Cancel").input).value_or(sf::Keyboard::Key::Unknown);
 
     if (menuKey != sf::Keyboard::Key::Unknown) {
         inputManager->RegisterEvent(menuKey, []() {
