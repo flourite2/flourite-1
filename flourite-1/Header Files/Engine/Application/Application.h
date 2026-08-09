@@ -78,7 +78,7 @@ private:
     // 물리 연산 시 사용할 변수
     float targetVelocity = 0.0f;
 
-    // ★ [새로 추가할 부분: 범용 리소스 컨테이너]
+    // 범용 리소스 컨테이너
     std::unordered_map<std::string, sf::Texture> textures;
     std::unordered_map<std::string, sf::Font> fonts;
     TileMap myTileMap;
@@ -98,7 +98,7 @@ private:
     int currentMenuIndex = 0;
 	int currentMenuDetailIndex = 0;
 
-    // 스탯
+    // 능력치 관련
     std::unordered_map<std::string, StatMapData> statTable;
     std::unordered_map<std::string, AttackMapData> atkTable;
     std::unordered_map<std::string, DefenseMapData> defTable;

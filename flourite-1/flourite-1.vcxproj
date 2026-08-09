@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Docs\journal\2026-08-02.md" />
     <ClCompile Include="Header Files\Engine\Core\Utils\TableParser.h" />
     <ClCompile Include="Header Files\Engine\ECS\Components\AI\FSMComponent.h" />
     <ClCompile Include="Header Files\Game\ECS\Components\CombatComponents.h" />
