@@ -24,16 +24,16 @@ void CombatParser::ParseAttackConfig(const std::string& filepath, std::unordered
 		std::string id = StringUtils::Trim(cols[0]);
 		float defaultAtk = std::stof(StringUtils::Trim(cols[1]));
 		float currentAtk = defaultAtk + 0.0f;
-		float modifiedAtk = ((currentAtk + 0.0f) * 1.0f) + 1.0f;	// 곱연산 이전 추가 공격력, 공격력 배율, 최후 추가 공격력 고려한 수식
+		float modifiedAtk = ((currentAtk + 0.0f) * 1.0f) + 0.0f;	// 곱연산 이전 추가 공격력, 공격력 배율, 최후 추가 공격력 고려한 수식
 		float defaultCritRate = std::stof(StringUtils::Trim(cols[2]));
 		float currentCritRate = defaultCritRate + 0.0f;
-		float modifiedCritRate = ((currentCritRate + 0.0f) * 1.0f) + 1.0f;
+		float modifiedCritRate = ((currentCritRate + 0.0f) * 1.0f) + 0.0f;
 		float defaultCritRatio = std::stof(StringUtils::Trim(cols[3]));
 		float currentCritRatio = defaultCritRatio + 0.0f;
-		float modifiedCritRatio = ((currentCritRatio + 0.0f) * 1.0f) + 1.0f;
+		float modifiedCritRatio = ((currentCritRatio + 0.0f) * 1.0f) + 0.0f;
 		float defaultSpeed = std::stof(StringUtils::Trim(cols[4]));
 		float currentSpeed = defaultSpeed + 0.0f;
-		float modifiedSpeed = ((currentSpeed + 0.0f) * 1.0f) + 1.0f;
+		float modifiedSpeed = ((currentSpeed + 0.0f) * 1.0f) + 0.0f;
 		return std::pair{ id,
 			AttackMapData{ id,
 			currentAtk,
