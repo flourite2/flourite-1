@@ -144,6 +144,9 @@
     <ClCompile Include="Source Files\Engine\Modules\Being\BeingFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\Engine\Core\Utils\DirectoryHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Engine\Core\Math\Vector2D.h">
@@ -272,6 +275,9 @@
     <ClInclude Include="Header Files\Engine\Modules\Physics\PhysicsUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\Engine\Core\Utils\DirectoryHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource Files\Assets\Urban_RPG_Pack\map.csv">
@@ -307,11 +313,9 @@
     <None Include="Resource Files\Being\Skill\attack_skill_table.tsv" />
     <None Include="Resource Files\Being\Skill\defense_skill_table.tsv" />
     <None Include="Resource Files\Being\Skill\buff_skill_table.tsv" />
-    <None Include="Docs\journal\2026-07-19.md" />
     <None Include="Docs\ROADMAP.md" />
-    <None Include="README.md" />
-    <None Include="Docs\journal\2026-07-25.md" />
     <None Include="Docs\journal\00_pre-repo-summary.md" />
+    <None Include="External Libraries\setup-guide.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\Assets\Urban_RPG_Pack\tile_0000.png">

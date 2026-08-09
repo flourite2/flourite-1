@@ -160,7 +160,7 @@ bool Application::InitAssets() {
     clampMaxY = std::max(halfH, mapH - halfH);
 
     // ★ 딕셔너리에서 텍스처를 꺼내서 사용
-    myTileMap.Load(&textures["Tilemap_packed"], tileSize, ConfigParser::GetInt("Map.SheetColumns", 27), RenderParser::mapCols, RenderParser::mapRows, mapScale, RenderParser::mapData);
+    myTileMap.Load(&textures.at("Tilemap_packed"), tileSize, ConfigParser::GetInt("Map.SheetColumns", 27), RenderParser::mapCols, RenderParser::mapRows, mapScale, RenderParser::mapData);
 
     std::cout << "[System] 에셋 매니페스트 동적 로딩 완료.\n";
     return true;
@@ -171,21 +171,24 @@ bool Application::InitEntities() {
 
     BeingFactory::SpawnDefault sd = { ConfigParser::GetFloat("Spawn.DefaultDamping", 8.0f) };
     for (const auto& sp : RenderParser::spawnPoints) {
-        if (beingTable.find(sp.entityID) == beingTable.end()) continue;
-        const auto& bData = beingTable[sp.entityID];
+        auto bIt = beingTable.find(sp.entityID);
+        if (bIt == beingTable.end()) continue;
+        const auto& bData = bIt->second;
 
         int tileIDToUse = 0;
         bool isCharacter = (bData.type == "Player" || bData.type == "player" || bData.type == "NPC" || bData.type == "npc");
 
-        if (isCharacter && animTables.find(bData.textureKey) != animTables.end()) {
-            tileIDToUse = animTables[bData.textureKey][0][0];
+
+        auto aIt = animTables.find(bData.textureKey);
+        if (isCharacter && aIt != animTables.end()) {
+            tileIDToUse = aIt->second[0][0];
         }
         else if (sp.gid > 0) {
             tileIDToUse = sp.gid - 1;
         }
 
         // ★ 모듈화된 팩토리 호출
-        Entity e = BeingFactory::SpawnBeing(registry, bData, &textures["Tilemap_packed"], tileIDToUse, sd, sp.posX, sp.posY);
+        Entity e = BeingFactory::SpawnBeing(registry, bData, &textures.at("Tilemap_packed"), tileIDToUse, sd, sp.posX, sp.posY);
 
         if (bData.type == "Player" || bData.type == "player") registry.signatures[e].set(COMP_PLAYER_TAG);
         else if (bData.type == "NPC" || bData.type == "npc") registry.signatures[e].set(COMP_NPC_TAG);
@@ -206,10 +209,11 @@ bool Application::InitEntities() {
     std::mt19937 rng(1337);
     std::uniform_real_distribution<float> posDist(0.0f, mapW);
     int dummyTileID = 251;
-    if (animTables.find("player_sd") != animTables.end()) dummyTileID = animTables["player_sd"][0][0];
+    auto it = animTables.find("player_sd");
+    if (it != animTables.end()) dummyTileID = it->second[0][0];
 
     for (int i = 0; i < dummyCount; ++i) {
-        BeingFactory::SpawnBeing(registry, beingTable["Dummy"], &textures["Tilemap_packed"], dummyTileID, sd, posDist(rng), posDist(rng));
+        BeingFactory::SpawnBeing(registry, beingTable.at("Dummy"), &textures.at("Tilemap_packed"), dummyTileID, sd, posDist(rng), posDist(rng));
     }
 
     // 3. 플레이어 스폰 검증
@@ -236,7 +240,7 @@ bool Application::InitEntities() {
 }
 
 bool Application::InitEvents() {
-    auto interactKey = InputKeys::ToSFMLKey(inputTable["Interact"].input).value_or(sf::Keyboard::Key::Unknown);
+    auto interactKey = InputKeys::ToSFMLKey(inputTable.at("Interact").input).value_or(sf::Keyboard::Key::Unknown);
     if (interactKey != sf::Keyboard::Key::Unknown) {
         std::cout << "[Interact] 키 입력 감지, interactRange=" << interactRange << std::endl;
         inputManager->RegisterEvent(interactKey, [this]() {
@@ -255,7 +259,7 @@ bool Application::InitEvents() {
                             std::cout << "대화끝" << std::endl;
                         }
                         
-                        else g_DialogStatus.Start(targetID, fonts["MainFont"], 24, maxWidth);
+                        else g_DialogStatus.Start(targetID, fonts.at("MainFont"), 24, maxWidth);
                     }
                     else {
                         int nextID = g_DialogStatus.currentDialog->nextDialogID;
@@ -265,7 +269,7 @@ bool Application::InitEvents() {
 
                             std::cout << "대화끝" << std::endl;
                         }
-                        else g_DialogStatus.Start(nextID, fonts["MainFont"], 24, maxWidth);
+                        else g_DialogStatus.Start(nextID, fonts.at("MainFont"), 24, maxWidth);
                     }
                 }
                 return;
@@ -293,7 +297,7 @@ bool Application::InitEvents() {
                     std::cout << "[Interact] 상호작용 판정 성공, entity=" << i << " dialogID=" << nFsm.dialogID << std::endl;
                     if (nFsm.dialogID != -1) {
                         float maxWidth = static_cast<float>(resX) - 140.0f;
-                        g_DialogStatus.Start(nFsm.dialogID, fonts["MainFont"], 24, maxWidth);
+                        g_DialogStatus.Start(nFsm.dialogID, fonts.at("MainFont"), 24, maxWidth);
                         nFsm.currentState = FSMState::CONVERSATION;
                         nPhys.velocity = Vector2D(0, 0);
                         nTrans.facedDirection = pTrans.facedDirection * -1.0f;
@@ -308,8 +312,8 @@ bool Application::InitEvents() {
             });
     }
 
-    auto uiUpKey = InputKeys::ToSFMLKey(inputTable["UI_Up"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto uiDownKey = InputKeys::ToSFMLKey(inputTable["UI_Down"].input).value_or(sf::Keyboard::Key::Unknown);
+    auto uiUpKey = InputKeys::ToSFMLKey(inputTable.at("UI_Up").input).value_or(sf::Keyboard::Key::Unknown);
+    auto uiDownKey = InputKeys::ToSFMLKey(inputTable.at("UI_Down").input).value_or(sf::Keyboard::Key::Unknown);
 
         
     if (uiUpKey != sf::Keyboard::Key::Unknown) {
@@ -336,13 +340,13 @@ bool Application::InitEvents() {
             });
     }
 
-    auto menuKey = InputKeys::ToSFMLKey(inputTable["Menu"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuUpKey = InputKeys::ToSFMLKey(inputTable["Menu_Up"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuLeftKey = InputKeys::ToSFMLKey(inputTable["Menu_Left"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuDownKey = InputKeys::ToSFMLKey(inputTable["Menu_Down"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuRightKey = InputKeys::ToSFMLKey(inputTable["Menu_Right"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuSelectKey = InputKeys::ToSFMLKey(inputTable["Menu_Select"].input).value_or(sf::Keyboard::Key::Unknown);
-    auto menuCancleKey = InputKeys::ToSFMLKey(inputTable["Menu_Cancle"].input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuKey = InputKeys::ToSFMLKey(inputTable.at("Menu").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuUpKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Up").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuLeftKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Left").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuDownKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Down").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuRightKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Right").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuSelectKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Select").input).value_or(sf::Keyboard::Key::Unknown);
+    auto menuCancleKey = InputKeys::ToSFMLKey(inputTable.at("Menu_Cancle").input).value_or(sf::Keyboard::Key::Unknown);
 
     if (menuKey != sf::Keyboard::Key::Unknown) {
         inputManager->RegisterEvent(menuKey, []() {
@@ -507,27 +511,28 @@ void Application::Render(float alpha) {
         boxBounds.position = { padding, winH - boxBounds.size.y - padding };
 
         // ★ 모듈화된 UI 그리기 호출
-        UIUtils::DrawNineSlice(&renderer.value(), textures["UIBox"], boxBounds, 12.0f, sf::Color(255, 255, 255));
+        UIUtils::DrawNineSlice(&renderer.value(), textures.at("UIBox"), boxBounds, 12.0f, sf::Color(255, 255, 255));
 
         std::string speakerID = g_DialogStatus.currentDialog->speakerID;
-        std::string uiName = (beingTable.find(speakerID) != beingTable.end()) ? beingTable[speakerID].uiName : speakerID;
+        auto bIt = beingTable.find(speakerID);
+        std::string uiName = (bIt != beingTable.end()) ? bIt->second.uiName : speakerID;
 
-        sf::Text nameText(fonts["MainFont"], sf::String::fromUtf8(uiName.begin(), uiName.end()), 28);
+        sf::Text nameText(fonts.at("MainFont"), sf::String::fromUtf8(uiName.begin(), uiName.end()), 28);
         nameText.setFillColor(sf::Color(50, 50, 50));
         nameText.setStyle(sf::Text::Bold);
         nameText.setPosition({ boxBounds.position.x + 30.0f, boxBounds.position.y + 15.0f });
         renderer->Draw(nameText);
 
-        sf::Sprite dividerSprite(textures["UIDivider"]);
+        sf::Sprite dividerSprite(textures.at("UIDivider"));
         float dividerTargetWidth = boxBounds.size.x - 60.0f;
-        float dividerScaleX = dividerTargetWidth / (float)textures["UIDivider"].getSize().x;
+        float dividerScaleX = dividerTargetWidth / (float)textures.at("UIDivider").getSize().x;
         dividerSprite.setScale({ dividerScaleX, 1.0f });
         dividerSprite.setPosition({ boxBounds.position.x + 30.0f, boxBounds.position.y + 55.0f });
         dividerSprite.setColor(sf::Color(150, 150, 150, 200));
         renderer->Draw(dividerSprite);
 
         sf::String slicedText = g_DialogStatus.wrappedText.substring(0, g_DialogStatus.visibleCharCount);
-        sf::Text dialogText(fonts["MainFont"], slicedText, 24);
+        sf::Text dialogText(fonts.at("MainFont"), slicedText, 24);
         dialogText.setFillColor(sf::Color::Black);
         dialogText.setPosition({ boxBounds.position.x + 30.0f, boxBounds.position.y + 75.0f });
         renderer->Draw(dialogText);
@@ -545,9 +550,9 @@ void Application::Render(float alpha) {
                 cBounds.position = { startX, startY + (i * (choiceBoxH + spacing)) };
                 cBounds.size = { choiceBoxW, choiceBoxH };
 
-                UIUtils::DrawNineSlice(&renderer.value(), textures["UIBox"], cBounds, 12.0f, sf::Color(255, 255, 255));
+                UIUtils::DrawNineSlice(&renderer.value(), textures.at("UIBox"), cBounds, 12.0f, sf::Color(255, 255, 255));
 
-                sf::Text cText(fonts["MainFont"], sf::String::fromUtf8(choices[i].first.begin(), choices[i].first.end()), 24);
+                sf::Text cText(fonts.at("MainFont"), sf::String::fromUtf8(choices[i].first.begin(), choices[i].first.end()), 24);
                 if (i == g_DialogStatus.currentChoiceIndex) {
                     cText.setFillColor(sf::Color(0, 100, 255));
                     cText.setStyle(sf::Text::Bold);
@@ -590,20 +595,20 @@ void Application::Render(float alpha) {
 		float startItemX = leftBounds.position.x + itemsMargine;
 		float startItemY = leftBounds.position.y + itemsMargine;
 
-        UIUtils::DrawNineSlice(&renderer.value(), textures["MenuBox"], leftBounds, 12.0f, sf::Color(255, 255, 255));
+        UIUtils::DrawNineSlice(&renderer.value(), textures.at("MenuBox"), leftBounds, 12.0f, sf::Color(255, 255, 255));
 
         sf::FloatRect menuItemBounds;
         for (size_t i = 0; i < menuItems.size(); i++) {
 			menuItemBounds.position = { startItemX, startItemY + i * (itemsH + itemsMargine) };
             menuItemBounds.size = { itemsW, itemsH };
-            sf::Text itemText(fonts["MainFont"], sf::String::fromUtf8(menuItems[i].name.begin(), menuItems[i].name.end()), 24);
+            sf::Text itemText(fonts.at("MainFont"), sf::String::fromUtf8(menuItems[i].name.begin(), menuItems[i].name.end()), 24);
             if (i == currentMenuIndex) {
-                UIUtils::DrawNineSlice(&renderer.value(), textures["MenuBox"], menuItemBounds, 12.0f, sf::Color(100, 200, 255));
+                UIUtils::DrawNineSlice(&renderer.value(), textures.at("MenuBox"), menuItemBounds, 12.0f, sf::Color(100, 200, 255));
                 itemText.setFillColor(sf::Color(255, 255, 255));
                 itemText.setStyle(sf::Text::Bold);
             }
             else {
-                UIUtils::DrawNineSlice(&renderer.value(), textures["MenuBox"], menuItemBounds, 12.0f, sf::Color(255, 255, 255));
+                UIUtils::DrawNineSlice(&renderer.value(), textures.at("MenuBox"), menuItemBounds, 12.0f, sf::Color(255, 255, 255));
                 itemText.setFillColor(sf::Color(50, 50, 50));
                 itemText.setStyle(sf::Text::Bold);
             }
@@ -616,7 +621,7 @@ void Application::Render(float alpha) {
         sf::FloatRect rightBounds;
 		rightBounds.position = { startX + totalW/4.0f, startY };
 		rightBounds.size = { totalW * 3.0f/4.0f, totalH };
-		UIUtils::DrawNineSlice(&renderer.value(), textures["MenuBox"], rightBounds, 12.0f, sf::Color(255, 255, 255));
+		UIUtils::DrawNineSlice(&renderer.value(), textures.at("MenuBox"), rightBounds, 12.0f, sf::Color(255, 255, 255));
 
 		float detailMargin = 20.0f;
 		float detailTextW = rightBounds.size.x - (detailMargin * 2.0f);
@@ -624,17 +629,22 @@ void Application::Render(float alpha) {
 
 		float startDetailX = rightBounds.position.x + detailMargin;
         float startDetailY = rightBounds.position.y + detailMargin;
-		
+        
         for (size_t i = 0; i < menuDetails.size(); i++) {
             if (menuDetails[i].id == currentMenuDetailIndex) {
                 if (currentMenuDetailIndex == 0) {
                     // 시각화할 수치(비율) 계산
-                    HPComponent playerHpComp = { statTable["player"].hpMapData.hp, statTable["player"].hpMapData.maxHp };
-                    MPComponent playerMpComp = { statTable["player"].mpMapData.mp, statTable["player"].mpMapData.maxMp };
-                    LevelComponent playerLvComp = { statTable["player"].LevelMapData.level,statTable["player"].LevelMapData.maxLevel,statTable["player"].LevelMapData.exp,statTable["player"].LevelMapData.maxExp };
-                    AttackComponent playerAtkComp = { atkTable["player"].baseAtk, atkTable["player"].modifiedAtk,atkTable["player"].baseCritRate, atkTable["player"].modifiedCritRate,atkTable["player"].baseCritRatio, atkTable["player"].modifiedCritRatio,atkTable["player"].baseSpeed, atkTable["player"].modifiedSpeed };
-                    DefenseComponent playerDefComp = { defTable["player"].baseDef, defTable["player"].modifiedDef };
-                    ElementalComponent playerEleComp = { eleTable ["player"] .baseElementAtkRatio, eleTable["player"].modifiedElementAtkRatio, eleTable["player"].baseElementDefRatio , eleTable["player"].modifiedElementDefRatio };
+                    const auto& playerStat = statTable.at("player");
+                    const auto& playerAtk = atkTable.at("player");
+                    const auto& playerDef = defTable.at("player");
+                    const auto& playerEle = eleTable.at("player");
+
+                    HPComponent playerHpComp = { playerStat.hpMapData.hp, playerStat.hpMapData.maxHp };
+                    MPComponent playerMpComp = { playerStat.mpMapData.mp, playerStat.mpMapData.maxMp };
+                    LevelComponent playerLvComp = { playerStat.LevelMapData.level,playerStat.LevelMapData.maxLevel,playerStat.LevelMapData.exp,playerStat.LevelMapData.maxExp };
+                    AttackComponent playerAtkComp = { playerAtk.baseAtk, playerAtk.modifiedAtk,playerAtk.baseCritRate, playerAtk.modifiedCritRate,playerAtk.baseCritRatio, playerAtk.modifiedCritRatio,playerAtk.baseSpeed, playerAtk.modifiedSpeed };
+                    DefenseComponent playerDefComp = { playerDef.baseDef, playerDef.modifiedDef };
+                    ElementalComponent playerEleComp = { playerEle.baseElementAtkRatio, playerEle.modifiedElementAtkRatio, playerEle.baseElementDefRatio , playerEle.modifiedElementDefRatio };
 
                     // 잠시 제대로 불러와졌는지 콘솔에서 확인용 코드
                     std::cout << "[playerAtkComp Test]\n\nbaseAtk: " << playerAtkComp.baseAtk << "\nmodifiedAtk: " << playerAtkComp.modifiedAtk << "\nbaseCritRate" << playerAtkComp.baseCritRate
@@ -649,16 +659,16 @@ void Application::Render(float alpha) {
 
                     int statInfoMargine = 24;
 
-					sf::Text hpText(fonts["MainFont"], "HP: " + std::to_string(playerHpComp.hp) + "/" + std::to_string(playerHpComp.maxHp), statInfoMargine);
+					sf::Text hpText(fonts.at("MainFont"), "HP: " + std::to_string(playerHpComp.hp) + "/" + std::to_string(playerHpComp.maxHp), statInfoMargine);
                     sf::FloatRect baseHPBar;
                     sf::FloatRect currentHPBar;
 
-                    sf::Text mpText(fonts["MainFont"], "MP: " + std::to_string(playerMpComp.mp) + "/" + std::to_string(playerMpComp.maxMp), statInfoMargine);
+                    sf::Text mpText(fonts.at("MainFont"), "MP: " + std::to_string(playerMpComp.mp) + "/" + std::to_string(playerMpComp.maxMp), statInfoMargine);
 					sf::FloatRect baseMPBar;
 					sf::FloatRect currentMPBar;
 
-					sf::Text levelText(fonts["MainFont"], "Level: " + std::to_string(playerLvComp.level), statInfoMargine);
-                    sf::Text expText(fonts["MainFont"], "EXP: " + std::to_string(playerLvComp.exp) + "/" + std::to_string(playerLvComp.maxExp), statInfoMargine);
+					sf::Text levelText(fonts.at("MainFont"), "Level: " + std::to_string(playerLvComp.level), statInfoMargine);
+                    sf::Text expText(fonts.at("MainFont"), "EXP: " + std::to_string(playerLvComp.exp) + "/" + std::to_string(playerLvComp.maxExp), statInfoMargine);
 					sf::FloatRect baseEXPBar;
                     sf::FloatRect currentEXPBar;
 
@@ -698,20 +708,20 @@ void Application::Render(float alpha) {
                         currentEXPBar.size = { detailTextW * expRatio, 20.0f };
                     }
 					renderer->Draw(hpText);
-                    UIUtils::DrawNineSlice(&renderer.value(), textures["BaseBar"], baseHPBar, 20.0f, sf::Color::White);
-					UIUtils::DrawNineSlice(&renderer.value(), textures["HPBar"], currentHPBar, 20.0f, sf::Color::White);
+                    UIUtils::DrawNineSlice(&renderer.value(), textures.at("BaseBar"), baseHPBar, 20.0f, sf::Color::White);
+					UIUtils::DrawNineSlice(&renderer.value(), textures.at("HPBar"), currentHPBar, 20.0f, sf::Color::White);
 
 					renderer->Draw(mpText);
-                    UIUtils::DrawNineSlice(&renderer.value(), textures["BaseBar"], baseMPBar, 20.0f, sf::Color::White);
-					UIUtils::DrawNineSlice(&renderer.value(), textures["MPBar"], currentMPBar, 20.0f, sf::Color::White);
+                    UIUtils::DrawNineSlice(&renderer.value(), textures.at("BaseBar"), baseMPBar, 20.0f, sf::Color::White);
+					UIUtils::DrawNineSlice(&renderer.value(), textures.at("MPBar"), currentMPBar, 20.0f, sf::Color::White);
 
 					renderer->Draw(levelText);
 					renderer->Draw(expText);
-					UIUtils::DrawNineSlice(&renderer.value(), textures["BaseBar"], baseEXPBar, 20.0f, sf::Color::White);
-					UIUtils::DrawNineSlice(&renderer.value(), textures["EXPBar"], currentEXPBar, 20.0f, sf::Color::White);
+					UIUtils::DrawNineSlice(&renderer.value(), textures.at("BaseBar"), baseEXPBar, 20.0f, sf::Color::White);
+					UIUtils::DrawNineSlice(&renderer.value(), textures.at("EXPBar"), currentEXPBar, 20.0f, sf::Color::White);
                 }
                 else {
-                    sf::Text detailText(fonts["MainFont"], sf::String::fromUtf8(menuDetails[i].description.begin(), menuDetails[i].description.end()), 24);
+                    sf::Text detailText(fonts.at("MainFont"), sf::String::fromUtf8(menuDetails[i].description.begin(), menuDetails[i].description.end()), 24);
                     detailText.setFillColor(sf::Color(50, 50, 50));
                     detailText.setStyle(sf::Text::Regular);
                     detailText.setPosition({ startDetailX, startDetailY });

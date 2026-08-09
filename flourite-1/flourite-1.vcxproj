@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Docs\journal\2026-08-02.md" />
     <ClCompile Include="Header Files\Engine\Core\Utils\TableParser.h" />
     <ClCompile Include="Header Files\Engine\ECS\Components\AI\FSMComponent.h" />
     <ClCompile Include="Header Files\Game\ECS\Components\CombatComponents.h" />
@@ -105,8 +104,6 @@
     <None Include="..\..\..\Tiled_project\player_sprite.csv" />
     <None Include="..\..\..\Tiled_project\test_map.csv" />
     <None Include="Docs\journal\00_pre-repo-summary.md" />
-    <None Include="Docs\journal\2026-07-19.md" />
-    <None Include="Docs\journal\2026-07-25.md" />
     <None Include="Docs\ROADMAP.md" />
     <None Include="External Libraries\setup-guide.md" />
     <None Include="Resource Files\Assets\Urban_RPG_Pack\map.csv" />

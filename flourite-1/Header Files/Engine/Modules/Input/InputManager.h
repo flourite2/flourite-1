@@ -24,7 +24,7 @@ private:
 
 public:
     // 생성자: 파싱된 inputTable과 이동 방향을 받는다.
-    InputManager(std::unordered_map<std::string, InputMapData>& inputTable);
+    InputManager(const std::unordered_map<std::string, InputMapData>& inputTable);
 
     // 이동 키 입력 시 이동 방향을 업데이트. 입력 방향은 정규화가 된 벡터여야 함
     void UpdateMoveDirection(Vector2D& moveDirection);

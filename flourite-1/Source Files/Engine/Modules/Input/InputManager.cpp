@@ -3,12 +3,12 @@
 #include "Engine/Modules/Input/InputManager.h"
 #include "Engine/Modules/Input/InputKeys.h"
 
-InputManager::InputManager(std::unordered_map<std::string, InputMapData>& inputTable) {
+InputManager::InputManager(const std::unordered_map<std::string, InputMapData>& inputTable) {
     moveContainer = {
-        { InputKeys::ToSFMLKey(inputTable["Move_Up"].input).value_or(sf::Keyboard::Key::Unknown),    Vector2D(0, -1) },
-        { InputKeys::ToSFMLKey(inputTable["Move_Down"].input).value_or(sf::Keyboard::Key::Unknown),  Vector2D(0, 1)  },
-        { InputKeys::ToSFMLKey(inputTable["Move_Left"].input).value_or(sf::Keyboard::Key::Unknown),  Vector2D(-1, 0) },
-        { InputKeys::ToSFMLKey(inputTable["Move_Right"].input).value_or(sf::Keyboard::Key::Unknown), Vector2D(1, 0)  }
+        { InputKeys::ToSFMLKey(inputTable.at("Move_Up").input).value_or(sf::Keyboard::Key::Unknown),    Vector2D(0, -1) },
+        { InputKeys::ToSFMLKey(inputTable.at("Move_Down").input).value_or(sf::Keyboard::Key::Unknown),  Vector2D(0, 1)  },
+        { InputKeys::ToSFMLKey(inputTable.at("Move_Left").input).value_or(sf::Keyboard::Key::Unknown),  Vector2D(-1, 0) },
+        { InputKeys::ToSFMLKey(inputTable.at("Move_Right").input).value_or(sf::Keyboard::Key::Unknown), Vector2D(1, 0)  }
     };
 }
 
