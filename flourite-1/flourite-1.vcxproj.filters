@@ -301,7 +301,6 @@
     <None Include="Resource Files\Quest\quest_table.tsv" />
     <None Include="Resource Files\Config\directory_config.ini" />
     <None Include="Resource Files\Config\asset_manifest.tsv" />
-    <None Include="Resource Files\Config\ui_config.ini" />
     <None Include="Resource Files\Being\being_config.ini" />
     <None Include="Resource Files\Being\Stat\base_stat_table.tsv" />
     <None Include="Resource Files\Being\Stat\base_attack_table.tsv" />

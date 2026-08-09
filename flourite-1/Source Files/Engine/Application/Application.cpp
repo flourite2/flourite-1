@@ -106,8 +106,8 @@ bool Application::InitConfigAndSystems() {
 }
 
 bool Application::InitAssets() {
-    // 1. 매니페스트 파일 로드 (이 경로 하나만 최후의 하드코딩/INI로 남깁니다)
-    std::string manifestPath = ConfigParser::GetString("Paths.AssetManifest", "Resource Files/Config/asset_manifest.tsv");
+    // 1. 매니페스트 파일 로드
+    std::string manifestPath = "Resource Files/Config/asset_manifest.tsv";
 
     std::vector<std::string> lines;
     FileLoader::LoadFile(manifestPath, lines);
@@ -251,6 +251,8 @@ bool Application::InitEvents() {
     if (interactKey != sf::Keyboard::Key::Unknown) {
         std::cout << "[Interact] 키 입력 감지, interactRange=" << interactRange << std::endl;
         inputManager->RegisterEvent(interactKey, [this]() {
+            if (currentState == GameState::PAUSE_MENU) return;
+            
             if (g_DialogStatus.isSpeaking) {
                 if (!g_DialogStatus.isTypingFinished) {
                     g_DialogStatus.Skip();
@@ -259,13 +261,13 @@ bool Application::InitEvents() {
                     float maxWidth = static_cast<float>(resX) - 140.0f;
                     if (g_DialogStatus.isWaitingForChoice) {
                         int targetID = g_DialogStatus.currentDialog->choices[g_DialogStatus.currentChoiceIndex].second;
-                        if (targetID == -1) { 
+                        if (targetID == -1) {
                             g_DialogStatus.isSpeaking = false;
                             currentState = GameState::PLAYING;
 
                             std::cout << "대화끝" << std::endl;
                         }
-                        
+
                         else g_DialogStatus.Start(targetID, fonts.at("MainFont"), 24, maxWidth);
                     }
                     else {
@@ -292,6 +294,8 @@ bool Application::InitEvents() {
             auto& pTrans = registry.transforms[playerEntity];
             auto& pPhys = registry.physics[playerEntity];
 
+
+
             for (Entity i = 0; i < maxEntities; ++i) {
                 if (i == playerEntity) continue;
                 if (!registry.signatures[i].test(COMP_TRANSFORM) || !registry.signatures[i].test(COMP_PHYSICS) || !registry.signatures[i].test(COMP_FSM)) continue;
@@ -316,7 +320,9 @@ bool Application::InitEvents() {
                     break;
                 }
             }
+            
             });
+            
     }
 
     auto uiUpKey = InputKeys::ToSFMLKey(inputTable.at("UI_Up").input).value_or(sf::Keyboard::Key::Unknown);

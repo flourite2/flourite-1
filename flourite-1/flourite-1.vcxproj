@@ -124,7 +124,6 @@
     <None Include="Resource Files\Config\engine_config.ini" />
     <None Include="Resource Files\Config\gameplay_vars.ini" />
     <None Include="Resource Files\Config\input_config.ini" />
-    <None Include="Resource Files\Config\ui_config.ini" />
     <None Include="Resource Files\Item\accessory_stats_table.tsv" />
     <None Include="Resource Files\Item\accessory_table.tsv" />
     <None Include="Resource Files\Item\armor_stats_table.tsv" />
