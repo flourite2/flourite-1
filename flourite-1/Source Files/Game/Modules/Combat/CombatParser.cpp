@@ -73,23 +73,29 @@ void CombatParser::ParseDefenseConfig(const std::string& filepath, std::unordere
 
 void CombatParser::ParseElementalConfig(const std::string& filepath, std::unordered_map <std::string, ElementalMapData>& elementTable) {
 	
-	const int COLSIZE = 11;
+	constexpr size_t KEYCOLS = 1;
+	constexpr size_t BLOCKCOUNT = 2;
 
-	auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, ElementalMapData>> {
+	constexpr size_t COLSIZE = KEYCOLS + (ELEMENTCOUNT * BLOCKCOUNT);
+
+	auto mapping = [](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, ElementalMapData>> {
 		if (cols.size() != COLSIZE) {
-			std::cerr << "[CombatParser Error]: COLSIZE 불일치" << std::endl;
+			std::cerr << "[CombatParser Error]: COLSIZE 불일치\n[" << "기대값: " << COLSIZE << " | 실제값: " << cols.size() << "]" << std::endl;
 			return std::nullopt;
 		}
 		ElementalMapData elementData;
 		std::string beingId = StringUtils::Trim(cols[0]);
 		elementData.beingId = beingId;
-		for (int i = 0; i < 5; i++) {
-			elementData.baseElementAtkRatio[i] = std::stof(StringUtils::Trim(cols[1 + i]));
+		for (size_t i = 0; i < ELEMENTCOUNT; i++) {
+			// 공격 배율
+			elementData.baseElementAtkRatio[i] = std::stof(StringUtils::Trim(cols[KEYCOLS + i]));
 			elementData.modifiedElementAtkRatio[i] = elementData.baseElementAtkRatio[i] + 0.0f;	// 임시 modifying 값
-		}
-		for (int i = 0; i < 5; i++) {
-			elementData.baseElementDefRatio[i] = std::stof(StringUtils::Trim(cols[6 + i]));
+
+			// 방어 배율
+			elementData.baseElementDefRatio[i] = std::stof(StringUtils::Trim(cols[KEYCOLS + ELEMENTCOUNT + i]));
 			elementData.modifiedElementDefRatio[i] = elementData.baseElementDefRatio[i] + 0.0f;	// 임시 modifying 값
+
+			// std::cout << "[CombatParser::ParseElementalConfig() 파싱 체크]\nbaseAtkRatio[" << i << "]: " << elementData.baseElementAtkRatio[i] << "\nmodifiedAtkRatio[" << i << "]: " << elementData.modifiedElementAtkRatio[i] << "\nbaseDefRatio[" << i << "]: " << elementData.baseElementDefRatio[i] << "\nmodifiedDefRatio[" << i << "]: " << elementData.modifiedElementDefRatio[i] << std::endl;
 		}
 
 		return std::pair{
@@ -99,4 +105,3 @@ void CombatParser::ParseElementalConfig(const std::string& filepath, std::unorde
 		
 	TableParser::ParseTsvTable(filepath, elementTable, mapping);
 }
-

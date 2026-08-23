@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <optional>
 #include <functional>
+#include "Game/ECS/Components/CombatComponents.h"
 
 struct AttackMapData {
 	std::string beingId;
@@ -31,11 +32,11 @@ struct DefenseMapData {
 struct ElementalMapData {
 	std::string beingId;
 
-	std::array<float, 5> baseElementAtkRatio;
-	std::array<float, 5> modifiedElementAtkRatio;
+	std::array<float, ELEMENTCOUNT> baseElementAtkRatio;
+	std::array<float, ELEMENTCOUNT> modifiedElementAtkRatio;
 
-	std::array<float, 5> baseElementDefRatio;
-	std::array<float, 5> modifiedElementDefRatio;
+	std::array<float, ELEMENTCOUNT> baseElementDefRatio;
+	std::array<float, ELEMENTCOUNT> modifiedElementDefRatio;
 };
 
 namespace CombatParser {

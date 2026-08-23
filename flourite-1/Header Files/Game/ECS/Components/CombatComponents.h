@@ -3,23 +3,24 @@
 #pragma once
 
 #include <array>
-#include <string>
 
 enum class ElementType {
 	HOT,
 	COLD,
 	NORMAL,
 	LIGHT,
-	DARK
+	DARK,
+	COUNT
 };
 
+constexpr size_t ELEMENTCOUNT = static_cast<size_t>(ElementType::COUNT);
 
 struct ElementalComponent {
-	std::array<float, 5> baseElementAtkRatio;
-	std::array<float, 5> modifiedElementAtkRatio;
+	std::array<float, ELEMENTCOUNT> baseElementAtkRatio;
+	std::array<float, ELEMENTCOUNT> modifiedElementAtkRatio;
 
-	std::array<float, 5> baseElementDefRatio;
-	std::array<float, 5> modifiedElementDefRatio;
+	std::array<float, ELEMENTCOUNT> baseElementDefRatio;
+	std::array<float, ELEMENTCOUNT> modifiedElementDefRatio;
 };
 
 struct AttackComponent {
