@@ -8,6 +8,7 @@ Release/
 *.opendb
 *.db
 ipch/
+.github/copilot-instructions.md
 
 # 빌드 산출물
 *.obj
