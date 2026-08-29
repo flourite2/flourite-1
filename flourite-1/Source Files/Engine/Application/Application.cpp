@@ -73,7 +73,7 @@ bool Application::InitConfigAndSystems() {
     resX = ConfigParser::GetInt("Window.Width", 1920);
     resY = ConfigParser::GetInt("Window.Height", 1080);
     interactRange = ConfigParser::GetFloat("Physics.InteractRange", 50.0f);
-    std::cout << "[Interact Range Check]: " << interactRange;
+    std::cout << "[Interact Range Check]: " << interactRange << std::endl;
 
     InputParser::ParseInputConfig("Resource Files/Config/input_config.ini", inputTable);
 
@@ -660,8 +660,8 @@ void Application::Render(float alpha) {
                     ElementalComponent playerEleComp = { playerEle.baseElementAtkRatio, playerEle.modifiedElementAtkRatio, playerEle.baseElementDefRatio , playerEle.modifiedElementDefRatio };
 
                     // 잠시 제대로 불러와졌는지 콘솔에서 확인용 코드
-                    std::cout << "[playerAtkComp Test]\n\nbaseAtk: " << playerAtkComp.baseAtk << "\nmodifiedAtk: " << playerAtkComp.modifiedAtk << "\nbaseCritRate" << playerAtkComp.baseCritRate
-                        << "\nmodifiedCritRate: " << playerAtkComp.modifiedCritRate << "\nbaseCritRatio" << playerAtkComp.modifiedCritRatio << "\nbaseSpeed: " << playerAtkComp.baseSpeed << "\nmodifiedSpeed" << playerAtkComp.modifiedSpeed << std::endl;
+                    std::cout << "[playerAtkComp Test]\n\nbaseAtk: " << playerAtkComp.baseAtk << "\nmodifiedAtk: " << playerAtkComp.modifiedAtk << "\nbaseCritRate: " << playerAtkComp.baseCritRate
+                        << "\nmodifiedCritRate: " << playerAtkComp.modifiedCritRate << "\nbaseCritRatio: " << playerAtkComp.modifiedCritRatio << "\nbaseSpeed: " << playerAtkComp.baseSpeed << "\nmodifiedSpeed: " << playerAtkComp.modifiedSpeed << std::endl;
                     std::cout << "[playerDefComp Test]\n\nbaseDef: " << playerDefComp.baseDef << "\nmodifiedDef: " << playerDefComp.modifiedDef << std::endl;
                     
 

@@ -291,9 +291,6 @@
     </None>
     <None Include="Resource Files\Config\engine_config.ini" />
     <None Include="Resource Files\Being\being_table.tsv" />
-    <None Include="..\..\..\Tiled_project\oldman_sprite.csv" />
-    <None Include="..\..\..\Tiled_project\player_sprite.csv" />
-    <None Include="..\..\..\Tiled_project\test_map.csv" />
     <None Include="Resource Files\Being\dialog_table.tsv" />
     <None Include="Resource Files\Config\gameplay_vars.ini" />
     <None Include="Resource Files\Config\asset_paths.ini" />

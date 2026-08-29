@@ -188,7 +188,7 @@ void PhysicsSystem2D::ApplyPhysics(PhysicsComponent& phys, TransformComponent& t
 
 void PhysicsSystem2D::ResolveCollision(TransformComponent& t1, PhysicsComponent& p1, TransformComponent& t2, PhysicsComponent& p2) {
     Vector2D normal;
-    float overlap = 0.0;;
+    float overlap = 0.0;
     bool collided = false;
 
     auto type1 = p1.collider.type;
