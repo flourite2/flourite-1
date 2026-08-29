@@ -12,31 +12,35 @@
 #include "Engine/Core/Utils/TableParser.h"
 
 namespace StatParser {
-	void ParseStatConfig(const std::string& filepath, std::unordered_map<std::string, StatMapData>& statTable) {
-		const int COLSIZE = 5;
+	bool ParseStatConfig(const std::string& filepath, std::unordered_map<std::string, StatMapData>& statTable) {
+		constexpr int COLSIZE = 5;
 
-		auto mapping = [COLSIZE](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, StatMapData>> {
+		auto mapping = [](const std::vector<std::string>& cols) -> std::optional<std::pair<std::string, StatMapData>> {
 			if (cols.size() != COLSIZE) {
-				std::cerr << "[StatParser Error]: COLSIZE 불일치" << std::endl;
+				std::cerr << "[ParseStatConfig() 실행 중 에러]: COLSIZE 불일치\n[" << "기대값: " << COLSIZE << " | 실제값: " << cols.size() << "]" << std::endl;
 				return std::nullopt;
 			}
 
 			std::string beingId = StringUtils::Trim(cols[0]);
 
-			float maxHp = std::stof(StringUtils::Trim(cols[1]));
-			float currentHp = maxHp - 0.0f;	// 현재 변동치 파일이 없으므로 전부 하드코딩
-			HPMapData hpMapData = { maxHp , currentHp };
+			auto maxHp = StringUtils::TryParseFloat(StringUtils::Trim(cols[1]), (beingId+"'s maxHp"));
+			if (!maxHp) return std::nullopt;
+			float currentHp = *maxHp;	// 현재 변동치 파일이 없으므로 전부 하드코딩
+			HPMapData hpMapData = { *maxHp , currentHp };
 
-			float maxMp = std::stof(StringUtils::Trim(cols[2]));
-			float currentMp = maxMp - 0.0f;
-			MPMapData mpMapData = { maxMp , currentMp };
+			auto maxMp = StringUtils::TryParseFloat(StringUtils::Trim(cols[2]), (beingId + "'s maxMp"));
+			if (!maxMp) return std::nullopt;
+			float currentMp = *maxMp;
+			MPMapData mpMapData = { *maxMp , currentMp };
 
-			// 임시 값
-			float defaultExp = std::stof(StringUtils::Trim(cols[3]));
-			float currentExp = defaultExp + 10.0f;
-			int defaultLevel = std::stoi(StringUtils::Trim(cols[4]));
-			int currentLevel = defaultLevel + 0;
-			float maxExp = 10.0f + ((float)currentLevel * 10.0f);
+			// 임시 값들: 시각화를 위해 임시 매직 넘버 기입
+			auto defaultExp = StringUtils::TryParseFloat(StringUtils::Trim(cols[3]), (beingId + "'s defaultExp"));
+			if (!defaultExp) return std::nullopt;
+			float currentExp = *defaultExp + 10.0f;
+			auto defaultLevel = StringUtils::TryParseInt(StringUtils::Trim(cols[4]), (beingId + "'s defaultLevel"));
+			if (!defaultLevel) return std::nullopt;
+			int currentLevel = *defaultLevel + 0;
+			float maxExp = 10.0f + (static_cast<float>(currentLevel) * 10.0f);
 			int maxLevel = 25;
 			LevelMapData lvMapData = { currentLevel, maxLevel, currentExp, maxExp };
 
@@ -49,7 +53,7 @@ namespace StatParser {
 				}
 			};
 			};
-		TableParser::ParseTsvTable(filepath, statTable, mapping);
+		return TableParser::ParseTsvTable(filepath, statTable, mapping);
 
 	}
 

@@ -28,5 +28,5 @@ namespace RenderParser {
 
     void LoadMapCSV(const std::string& filepath);
     std::vector<std::vector<int>> LoadSpriteCSV(const std::string& filepath);
-    void LoadMapJSON(const std::string& filepath, EntityManager& registry);
+    bool LoadMapJSON(const std::string& filepath, EntityManager& registry);
 }

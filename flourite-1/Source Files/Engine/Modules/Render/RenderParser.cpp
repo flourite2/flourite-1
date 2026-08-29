@@ -74,11 +74,11 @@ namespace RenderParser {
         return animTable;
     }
 
-    void RenderParser::LoadMapJSON(const std::string& filepath, EntityManager& registry) {
+    bool RenderParser::LoadMapJSON(const std::string& filepath, EntityManager& registry) {
         std::ifstream file(filepath);
         if (!file.is_open()) {
             std::cout << "[Error] JSON 맵 파일을 열 수 없습니다: " << filepath << "\n";
-            return;
+            return false;
         }
 
         json j;
@@ -161,5 +161,6 @@ namespace RenderParser {
                 }
             }
         }
+        return true;
     }
 }

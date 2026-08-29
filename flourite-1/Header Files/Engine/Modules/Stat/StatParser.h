@@ -29,5 +29,5 @@ struct StatMapData {
 
 namespace StatParser {
 	// Stat 관련 파싱 함수 선언
-	void ParseStatConfig(const std::string& filepath, std::unordered_map<std::string, StatMapData>& statTable);
+	bool ParseStatConfig(const std::string& filepath, std::unordered_map<std::string, StatMapData>& statTable);
 }

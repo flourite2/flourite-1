@@ -40,7 +40,7 @@ struct ElementalMapData {
 };
 
 namespace CombatParser {
-	void ParseAttackConfig(const std::string& filepath, std::unordered_map<std::string, AttackMapData>& atkTable);
-	void ParseDefenseConfig(const std::string& filepath, std::unordered_map<std::string, DefenseMapData>& defTable);
-	void ParseElementalConfig(const std::string& filepath, std::unordered_map <std::string, ElementalMapData>& eleTable);
+	bool ParseAttackConfig(const std::string& filepath, std::unordered_map<std::string, AttackMapData>& atkTable);
+	bool ParseDefenseConfig(const std::string& filepath, std::unordered_map<std::string, DefenseMapData>& defTable);
+	bool ParseElementalConfig(const std::string& filepath, std::unordered_map <std::string, ElementalMapData>& eleTable);
 }
