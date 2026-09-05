@@ -106,6 +106,7 @@ bool Application::InitConfigAndSystems() {
 }
 
 bool Application::InitAssets() {
+    bool errored = false;
     // 1. 매니페스트 파일 로드
     std::string manifestPath = "Resource Files/Config/asset_manifest.tsv";
 
@@ -142,7 +143,12 @@ bool Application::InitAssets() {
             if (!fonts[id].openFromFile(path)) std::cerr << "[Warning] 폰트 로드 실패: " << path << "\n";
         }
         else if (type == "SpriteCSV") {
-            animTables[id] = RenderParser::LoadSpriteCSV(path);
+            auto tables = RenderParser::LoadSpriteCSV(path);
+            if (!tables) {
+                errored = true;
+                continue;
+            }
+            animTables[id] = *tables;
         }
         else if (type == "BeingTSV") {
             BeingParser::ParseBeingConfig(path, beingTable);
@@ -154,6 +160,8 @@ bool Application::InitAssets() {
             RenderParser::LoadMapJSON(path, registry);
         }
     }
+
+    if (errored) return false;
 
     // 3. 맵 크기 및 물리 바운더리 세팅
     int tileSize = spriteSheetSpec.tileSize;

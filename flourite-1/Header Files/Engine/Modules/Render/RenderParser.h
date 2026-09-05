@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <optional>
 #include "Engine/Core/Utils/FileLoader.h"
 #include "Engine/Core/Utils/StringUtils.h"
 #include "Engine/ECS/Components/Render/RenderComponent.h"
@@ -26,7 +27,6 @@ namespace RenderParser {
     extern int mapRows;
     extern std::vector<SpawnPointData> spawnPoints; // 중복 정의 방지를 위한 extern 선언
 
-    void LoadMapCSV(const std::string& filepath);
-    std::vector<std::vector<int>> LoadSpriteCSV(const std::string& filepath);
+    std::optional<std::vector<std::vector<int>>> LoadSpriteCSV(const std::string& filepath);
     bool LoadMapJSON(const std::string& filepath, EntityManager& registry);
 }
