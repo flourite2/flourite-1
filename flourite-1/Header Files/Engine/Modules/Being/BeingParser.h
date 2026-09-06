@@ -11,8 +11,6 @@ struct BeingMapData {
     std::string type;
     std::string aiType;   
     std::string mapID;
-    float posX;
-    float posY;
     float mass;
     float radius;
     std::string textureKey;

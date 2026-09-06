@@ -11,7 +11,7 @@
 
 bool BeingParser::ParseBeingConfig(const std::string& filepath,
 std::unordered_map<std::string, BeingMapData>& beingTable){
-constexpr int COLSIZE = 11;
+constexpr int COLSIZE = 9;
 
 auto mapping = [](const std::vector<std::string>& cols)->std::optional<std::pair<std::string, BeingMapData>> {
 	if (cols.size() != COLSIZE) {
@@ -23,18 +23,14 @@ auto mapping = [](const std::vector<std::string>& cols)->std::optional<std::pair
 	std::string aiType = StringUtils::Trim(cols[2]);
 	std::string mapID = StringUtils::Trim(cols[3]);
 
-	auto posX = StringUtils::TryParseFloat(StringUtils::Trim(cols[4]), (id + "'s posX"));
-	if (!posX) return std::nullopt;
-	auto posY = StringUtils::TryParseFloat(StringUtils::Trim(cols[5]), (id + "'s posY"));
-	if (!posY) return std::nullopt;
-	auto mass = StringUtils::TryParseFloat(StringUtils::Trim(cols[6]), (id + "'s mass"));
+	auto mass = StringUtils::TryParseFloat(StringUtils::Trim(cols[4]), (id + "'s mass"));
 	if (!mass) return std::nullopt;
-	auto radius = StringUtils::TryParseFloat(StringUtils::Trim(cols[7]), (id + "'s radius"));
+	auto radius = StringUtils::TryParseFloat(StringUtils::Trim(cols[5]), (id + "'s radius"));
 	if (!radius) return std::nullopt;
-	std::string textureKey = StringUtils::Trim(cols[8]);
-	auto dialogID = StringUtils::TryParseInt(StringUtils::Trim(cols[9]), (id + "'s dialogID"));
+	std::string textureKey = StringUtils::Trim(cols[6]);
+	auto dialogID = StringUtils::TryParseInt(StringUtils::Trim(cols[7]), (id + "'s dialogID"));
 	if (!dialogID) return std::nullopt;
-	std::string uiName = StringUtils::Trim(cols[10]);
+	std::string uiName = StringUtils::Trim(cols[8]);
 
 	return std::pair { id,
 		BeingMapData{
@@ -42,8 +38,6 @@ auto mapping = [](const std::vector<std::string>& cols)->std::optional<std::pair
 		type,
 		aiType,
 		mapID,
-		*posX,
-		*posY,
 		*mass,
 		*radius,
 		textureKey,
