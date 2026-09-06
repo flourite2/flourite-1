@@ -137,10 +137,16 @@ bool Application::InitAssets() {
 
         // ★ Type에 따라 알아서 딕셔너리에 꽂아 넣음!
         if (type == "Texture") {
-            if (!textures[id].loadFromFile(path)) std::cerr << "[Warning] 텍스처 로드 실패: " << path << "\n";
+            if (!textures[id].loadFromFile(path)) {
+                std::cerr << "[Application::InitAssets() 실행 중 에러] 텍스처 로드 중 문제 발생: " << path << "\n";
+                errored = true;
+            }
         }
         else if (type == "Font") {
-            if (!fonts[id].openFromFile(path)) std::cerr << "[Warning] 폰트 로드 실패: " << path << "\n";
+            if (!fonts[id].openFromFile(path)) {
+                std::cerr << "[Application::InitAssets() 실행 중 에러] 폰트 로드 중 문제 발생: " << path << "\n";
+                errored = true;
+            }
         }
         else if (type == "SpriteCSV") {
             auto tables = RenderParser::LoadSpriteCSV(path);
@@ -151,13 +157,24 @@ bool Application::InitAssets() {
             animTables[id] = *tables;
         }
         else if (type == "BeingTSV") {
-            BeingParser::ParseBeingConfig(path, beingTable);
+            if (!BeingParser::ParseBeingConfig(path, beingTable)) {
+                errored = true;
+                continue;
+            }
         }
         else if (type == "DialogTSV") {
             DialogParser::ParseDialogConfig(path);
         }
         else if (type == "MapJSON") {
-            RenderParser::LoadMapJSON(path, registry);
+            if(!RenderParser::LoadMapJSON(path, registry)) {
+                errored = true;
+                continue;
+            }
+        }
+        else {
+            std::cerr << "[Application::InitAssets() 실행 중 에러] 매니페스트 파일 type 확인 필요. type: " << type << " 경로: " << path << "\n";
+            errored = true;
+            continue;
         }
     }
 
