@@ -153,6 +153,7 @@ bool RenderParser::LoadMapJSON(const std::string& filepath, EntityManager& regis
                         wallPhys.collider = Collider::CreateAABBCollider(tWidth, tHeight);
                         registry.AddPhysics(wall, wallPhys);
                     }
+
                 }
                 std::cout << "[Map Debug] 스케일(x" << mapScale << ")이 적용된 물리 충돌 레이어 로드 완료.\n";
             }

@@ -202,6 +202,7 @@ bool Application::InitEntities() {
     // 1. Tiled 맵 기반 스폰
 
     BeingFactory::SpawnDefault sd = { ConfigParser::GetFloat("Spawn.DefaultDamping", 8.0f) };
+
     for (const auto& sp : RenderParser::spawnPoints) {
         auto bIt = beingTable.find(sp.entityID);
         if (bIt == beingTable.end()) continue;
@@ -245,7 +246,9 @@ bool Application::InitEntities() {
     if (it != animTables.end()) dummyTileID = it->second[0][0];
 
     for (int i = 0; i < dummyCount; ++i) {
+
         BeingFactory::SpawnBeing(registry, beingTable.at("Dummy"), &textures.at("Tilemap_packed"), dummyTileID, sd, spriteSheetSpec, posDist(rng), posDist(rng));
+
     }
 
     // 3. 플레이어 스폰 검증
@@ -319,8 +322,6 @@ bool Application::InitEvents() {
             auto& pTrans = registry.transforms[playerEntity];
             auto& pPhys = registry.physics[playerEntity];
 
-
-
             for (Entity i = 0; i < maxEntities; ++i) {
                 if (i == playerEntity) continue;
                 if (!registry.signatures[i].test(COMP_TRANSFORM) || !registry.signatures[i].test(COMP_PHYSICS) || !registry.signatures[i].test(COMP_FSM)) continue;
@@ -345,14 +346,12 @@ bool Application::InitEvents() {
                     break;
                 }
             }
-            
             });
             
     }
 
     auto uiUpKey = InputKeys::ToSFMLKey(inputTable.at("UI_Up").input).value_or(sf::Keyboard::Key::Unknown);
     auto uiDownKey = InputKeys::ToSFMLKey(inputTable.at("UI_Down").input).value_or(sf::Keyboard::Key::Unknown);
-
         
     if (uiUpKey != sf::Keyboard::Key::Unknown) {
         inputManager->RegisterEvent(uiUpKey, []() {
@@ -414,7 +413,6 @@ bool Application::InitEvents() {
     }
 
     // 미완성
-    
     if (menuUpKey != sf::Keyboard::Key::Unknown) {
         inputManager->RegisterEvent(menuUpKey, [this]() {
             if (currentState == GameState::PAUSE_MENU)
@@ -441,7 +439,6 @@ bool Application::InitEvents() {
                 }
             }
         });
-		
     }
 
     return true;
@@ -461,7 +458,6 @@ void Application::Run() {
         if (currentState == GameState::DIALOG) {
             g_DialogStatus.Update(physicsDT);  // 타이프라이터만 별도로
         }
-        
 
         ProcessEvents();
 
@@ -683,13 +679,6 @@ void Application::Render(float alpha) {
                     AttackComponent playerAtkComp = { playerAtk.baseAtk, playerAtk.modifiedAtk,playerAtk.baseCritRate, playerAtk.modifiedCritRate,playerAtk.baseCritRatio, playerAtk.modifiedCritRatio,playerAtk.baseSpeed, playerAtk.modifiedSpeed };
                     DefenseComponent playerDefComp = { playerDef.baseDef, playerDef.modifiedDef };
                     ElementalComponent playerEleComp = { playerEle.baseElementAtkRatio, playerEle.modifiedElementAtkRatio, playerEle.baseElementDefRatio , playerEle.modifiedElementDefRatio };
-
-                    // 잠시 제대로 불러와졌는지 콘솔에서 확인용 코드
-                    std::cout << "[playerAtkComp Test]\n\nbaseAtk: " << playerAtkComp.baseAtk << "\nmodifiedAtk: " << playerAtkComp.modifiedAtk << "\nbaseCritRate: " << playerAtkComp.baseCritRate
-                        << "\nmodifiedCritRate: " << playerAtkComp.modifiedCritRate << "\nbaseCritRatio: " << playerAtkComp.modifiedCritRatio << "\nbaseSpeed: " << playerAtkComp.baseSpeed << "\nmodifiedSpeed: " << playerAtkComp.modifiedSpeed << std::endl;
-                    std::cout << "[playerDefComp Test]\n\nbaseDef: " << playerDefComp.baseDef << "\nmodifiedDef: " << playerDefComp.modifiedDef << std::endl;
-                    
-
 
 					float hpRatio = std::max(playerHpComp.hp / playerHpComp.maxHp, 0.0f);
 					float mpRatio = std::max(playerMpComp.mp / playerMpComp.maxMp, 0.0f);
