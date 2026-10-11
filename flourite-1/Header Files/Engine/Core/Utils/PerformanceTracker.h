@@ -26,11 +26,25 @@ private:
     int minTextureSwapsInFrame = std::numeric_limits<int>::max();
     long long sumTextureSwaps = 0;
 
+    // 현재 물리 활성화된 엔티티 수를 기록하기
+    int maxActivateCount = 0;
+    long long sumActivateCount = 0;
+
+    // Fixed 스텝 관련 정보
+    float maxFixedStepLoopTime = 0;
+    double sumFixedStepLoopTime = 0;
+    int maxFixedStepCount = 0;
+    long long sumFixedStepCount = 0;
+
+    // csv 파일에 기록한 횟수(몇 번째 기록인지)
+    int csvRecordCount = 0;
+
 public:
     // 기본 인수는 반드시 헤더에 명시해야 합니다.
     PerformanceTracker(size_t sampleSize = 1000);
 
-    void RecordFrame(std::chrono::nanoseconds nsDT, int allocs, int draws, int swaps);
+    void RecordFrame(std::chrono::nanoseconds nsDT, int allocs, int draws, int swaps, int activated);
+    void RecordFixedStepLoop(std::chrono::nanoseconds ns, int count);
     bool IsSampleFull() const;
     void PrintStatistics();
 };

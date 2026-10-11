@@ -78,6 +78,7 @@ private:
 
     // 물리 연산 시 사용할 변수
     float targetVelocity = 0.0f;
+    int activatedEntities = 0;  // 물리 활성화된 엔티티 개수
 
     // 범용 리소스 컨테이너
     std::unordered_map<std::string, sf::Texture> textures;

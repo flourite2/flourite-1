@@ -30,6 +30,7 @@
 #include <iostream>
 #include <random>
 #include <windows.h>
+#include <chrono>
 
 #include "Engine/Modules/UI/Menu.h"
 
@@ -462,11 +463,16 @@ void Application::Run() {
         ProcessEvents();
 
         const int repeat = fsa.GetRepeatCount();
+        auto startRecord = std::chrono::steady_clock::now();
         for (int i = 0; i < repeat; i++) {
             if (currentState == GameState::PLAYING) {
                 Update(physicsDT);  // 물리+FSM은 기존처럼
             }
         }
+        auto endRecord = std::chrono::steady_clock::now();
+
+        auto recordTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endRecord - startRecord);
+        perfTracker.RecordFixedStepLoop(recordTime, repeat);
 
         float dtFloat = static_cast<float>(dtDouble);
         uint32_t maxEntities = registry.GetEntityCapacity();
@@ -479,7 +485,7 @@ void Application::Run() {
         }
         Render(fsa.GetAlpha());
 
-        perfTracker.RecordFrame(timer.GetDeltaTime(), 0, renderer->GetAndResetDrawCalls(), renderer->GetAndResetTextureSwaps());
+        perfTracker.RecordFrame(timer.GetDeltaTime(), 0, renderer->GetAndResetDrawCalls(), renderer->GetAndResetTextureSwaps(), activatedEntities);
         if (perfTracker.IsSampleFull()) perfTracker.PrintStatistics();
     }
 }
@@ -509,7 +515,9 @@ void Application::Update(float dt) {
 
     
     fsmSystem.Update(registry, dt, targetVelocity); // ★ FSM 중복 호출 버그 수정
-    physicsSystem->FixedUpdate(registry, dt, cullRect);
+    // 이때 시작
+    activatedEntities = physicsSystem->FixedUpdate(registry, dt, cullRect);
+    // 이때 종료, 누적. 초기화는 csv 파일 한 줄 찍고 나서
 }
 
 void Application::Render(float alpha) {
