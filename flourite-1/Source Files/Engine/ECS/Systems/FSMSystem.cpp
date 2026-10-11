@@ -44,7 +44,7 @@ static void UpdateStuckDetection(FSMComponent& fsm, TransformComponent& trans,
         float movedSq = (trans.position - fsm.lastPosition).LengthSquared();
         if (movedSq < STUCK_DIST_SQ) {
             // 막힘 확인 → 새 목표 재지정
-            std::cout << "[AI Stuck] NPC가 막혔습니다. 새 목표를 지정합니다.\n";
+            //std::cout << "[AI Stuck] NPC가 막혔습니다. 새 목표를 지정합니다.\n";
             fsm.targetPos = FSMSystem::GetRandomPatrolPoint(trans.position, 200.0f);
             phys.velocity = Vector2D(0, 0); // 관성 초기화
         }
@@ -90,8 +90,8 @@ static void UpdateWaypoint(FSMComponent& fsm, TransformComponent& trans,
             else {
                 // 웨이포인트 없음 → 랜덤 패트롤 폴백
                 fsm.targetPos = FSMSystem::GetRandomPatrolPoint(trans.position, 150.0f);
-                std::cout << "[AI Waypoint] 웨이포인트 없음, 랜덤 패트롤 목표: "
-                    << fsm.targetPos.x << ", " << fsm.targetPos.y << "\n";
+                /*std::cout << "[AI Waypoint] 웨이포인트 없음, 랜덤 패트롤 목표: "
+                    << fsm.targetPos.x << ", " << fsm.targetPos.y << "\n";*/
             }
         }
         break;
