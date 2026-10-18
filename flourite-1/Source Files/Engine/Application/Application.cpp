@@ -512,12 +512,9 @@ void Application::Update(float dt) {
     cullRect.right = camPos.x + halfW + padding;
     cullRect.top = camPos.y - halfH - padding;
     cullRect.bottom = camPos.y + halfH + padding;
-
     
-    fsmSystem.Update(registry, dt, targetVelocity); // ★ FSM 중복 호출 버그 수정
-    // 이때 시작
+    fsmSystem.Update(registry, dt, targetVelocity);
     activatedEntities = physicsSystem->FixedUpdate(registry, dt, cullRect);
-    // 이때 종료, 누적. 초기화는 csv 파일 한 줄 찍고 나서
 }
 
 void Application::Render(float alpha) {
