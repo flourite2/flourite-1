@@ -108,6 +108,7 @@ bool Application::InitConfigAndSystems() {
 
 bool Application::InitAssets() {
     bool errored = false;
+
     // 1. 매니페스트 파일 로드
     std::string manifestPath = "Resource Files/Config/asset_manifest.tsv";
 
@@ -200,10 +201,11 @@ bool Application::InitAssets() {
 }
 
 bool Application::InitEntities() {
+    // 엔티티 초기화 중 발생 오류 컨테이너
+    std::vector<std::string> initEntitiesErrors;
+
     // 1. Tiled 맵 기반 스폰
-
     BeingFactory::SpawnDefault sd = { ConfigParser::GetFloat("Spawn.DefaultDamping", 8.0f) };
-
     for (const auto& sp : RenderParser::spawnPoints) {
         auto bIt = beingTable.find(sp.entityID);
         if (bIt == beingTable.end()) continue;
@@ -223,6 +225,11 @@ bool Application::InitEntities() {
 
         // ★ 모듈화된 팩토리 호출
         Entity e = BeingFactory::SpawnBeing(registry, bData, &textures.at("Tilemap_packed"), tileIDToUse, sd, spriteSheetSpec, sp.posX, sp.posY);
+
+        if (e == INVALID_ENTITY) {
+            initEntitiesErrors.push_back("[Application::InitEntities() 실행 중 에러]\nmap 기반 생성 중 상한 초과: " + sp.entityID + " 생성 시도");
+            continue;
+        }
 
         if (bData.type == "Player" || bData.type == "player") registry.signatures[e].set(COMP_PLAYER_TAG);
         else if (bData.type == "NPC" || bData.type == "npc") registry.signatures[e].set(COMP_NPC_TAG);
@@ -247,9 +254,16 @@ bool Application::InitEntities() {
     if (it != animTables.end()) dummyTileID = it->second[0][0];
 
     for (int i = 0; i < dummyCount; ++i) {
+        Entity dummy = BeingFactory::SpawnBeing(registry, beingTable.at("Dummy"), &textures.at("Tilemap_packed"), dummyTileID, sd, spriteSheetSpec, posDist(rng), posDist(rng));
+        if (dummy == INVALID_ENTITY) {
+            initEntitiesErrors.push_back("[Application::InitEntities() 실행 중 에러]\ndummy 생성 중 상한 초과: " + std::to_string(i + 1) + "번째 dummy 생성 시도");
+            break;
+        }
+    }
 
-        BeingFactory::SpawnBeing(registry, beingTable.at("Dummy"), &textures.at("Tilemap_packed"), dummyTileID, sd, spriteSheetSpec, posDist(rng), posDist(rng));
-
+    // 생성 중 에러 있었으면 출력
+    for (const auto& errmsg : initEntitiesErrors) {
+        std::cerr << errmsg << std::endl;
     }
 
     // 3. 플레이어 스폰 검증

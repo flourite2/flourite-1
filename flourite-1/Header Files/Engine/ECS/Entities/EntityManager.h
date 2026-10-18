@@ -3,13 +3,16 @@
 #include <bitset>
 #include <cstdint>
 #include <queue>
+#include <limits>
 #include "Engine/ECS/Components/Physics/TransformComponent.h"
 #include "Engine/ECS/Components/Physics/PhysicsComponent.h"
 #include "Engine/ECS/Components/Render/RenderComponent.h"
-#include "Engine/ECS/Components/AI/FSMComponent.h" // ★ 신규 추가
+#include "Engine/ECS/Components/AI/FSMComponent.h"
 
 using Entity = uint32_t;
-const int MAX_ENTITIES = 5000;
+// 엔티티 최대치 및 invalid 값 지정
+constexpr Entity MAX_ENTITIES = 5000;
+constexpr Entity INVALID_ENTITY = std::numeric_limits<Entity>::max();
 
 // 1. 컴포넌트 타입 열거형
 enum ComponentType {
@@ -28,6 +31,7 @@ struct PlayerTag {};
 struct NPCTag {};
 
 class EntityManager {
+
 private:
     Entity entityCounter = 0;
     std::queue<Entity> availableIDs; // 반납된 ID를 저장할 큐

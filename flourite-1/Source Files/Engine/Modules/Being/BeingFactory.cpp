@@ -4,6 +4,9 @@
 
 Entity BeingFactory::SpawnBeing(EntityManager& registry, const BeingMapData& data, const sf::Texture* atlas, int initialTileID, SpawnDefault spawnDefaults, const AnimationHelper::SpriteSheetSpec sps, float x, float y) {
     Entity e = registry.CreateEntity();
+    
+    // 생성 검증
+    if (e == INVALID_ENTITY) return e;
 
     registry.AddTransform(e, TransformComponent{ Vector2D(x, y), Vector2D(x, y), Vector2D(6.f, 6.f) });
 

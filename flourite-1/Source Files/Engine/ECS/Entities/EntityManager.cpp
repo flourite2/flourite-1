@@ -15,11 +15,15 @@ EntityManager::EntityManager() {
 Entity EntityManager::CreateEntity() {
     Entity id;
 
+    // 빈 공간 재활용
     if (!availableIDs.empty()) {
         id = availableIDs.front();
         availableIDs.pop();
     }
     else {
+        // 최대치 검사
+        if (entityCounter >= MAX_ENTITIES) return INVALID_ENTITY;
+
         id = entityCounter++;
     }
     signatures[id].reset();
